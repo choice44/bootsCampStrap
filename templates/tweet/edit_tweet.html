@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}
+    수정 페이지
+{% endblock %}
+{% block content %}
+    <!--오른쪽 컬럼-->
+    <div style='display:grid; grid-column: 2/5; margin: 10px 40px 0px 20px'>
+        <form method='post'>
+            {% csrf_token %}
+            {{ update_form.as_p }}
+            <button type="submit" class="btn btn-outline-primary" style='width:100px;'>저장하기</button>
+            <a href="{%url 'delete' update_id%}" class="btn btn-secondary">삭제하기</a>
+        </form>
+    </diV>
+</div>
+    
+{% endblock %}
