@@ -12,7 +12,7 @@ class TweetModel(models.Model):
     content = models.TextField("내용")
     update_at = models.DateTimeField("수정날짜", auto_now=True)
     # ordering(피드정렬)='-created_at'
-    created_at = models.DateField("생성날짜", auto_now_add=True)
+    created_at = models.DateTimeField("생성날짜", auto_now_add=True)
 
     class Meta:     # 데이터 베이스에 정보를 넣어주는 역할
         db_table = "tweet"  # 테이블 이름
