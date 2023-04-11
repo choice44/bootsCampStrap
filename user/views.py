@@ -26,19 +26,23 @@ def signup(request):
     #         else:
     #             UserModel.objects.create_user(username=username, password=password, bio='')
     #             return redirect('/login')
-
+    form = UserForm()
     if request.method == 'GET':
-        return render(request, 'user/signup.html')
+        return render(request, 'user/signup.html', { 'form' : form })
     elif request.method == "POST":
         form = UserForm(request.POST)
         if form.is_valid():
+            print('@@@')
             form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username = username, password = password)
-            login(request, user)
-            return redirect('/')
-
+            # username = form.cleaned_data.get('username')
+            # password = form.cleaned_data.get('password1')
+            # user = authenticate(request, username=username, password=password)
+            # login(request, user)
+            return redirect('user/login')
+        else:
+            print('!!!')
+            form = UserForm()
+            return render(request, 'user/signup.html', {'form' : form})
 
 
 def login(request):
@@ -54,7 +58,7 @@ def login(request):
             return render(request, 'user/login.html', {'error': '아이디 혹은 비밀번호를 확인 해 주세요'})
 
     elif request.method == 'GET':
-        return render(request, 'user/login.html')            
+        return render(request, 'user/login.html')
 
 
 @login_required
