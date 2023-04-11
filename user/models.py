@@ -12,6 +12,7 @@ from django.contrib.auth.models import AbstractUser
 #     def __str__(self):
 #         return self.username
 
+
 class UserModel(AbstractUser):
     class Meta:
         db_table = "user"

@@ -5,12 +5,6 @@ from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 
-def home(request):
-    user = request.user.is_authenticated
-    if user:
-        return render(request, 'base.html')
-    else:
-        return redirect('/signin')
 
 def signup(request):
     # if request.method == 'GET':
@@ -40,7 +34,7 @@ def signup(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
+            password = form.cleaned_data.get('password')
             user = authenticate(username = username, password = password)
             login(request, user)
             return redirect('/')

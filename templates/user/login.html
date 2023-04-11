@@ -28,7 +28,7 @@
       {% endif %}
       <div style="float: right">
         <button type="submit" class="btn btn-primary">로그인</button>
-        <a href="/signup" class="btn btn-secondary">회원가입 페이지로</a>
+        <a href="{% url 'user:signup' %}" class="btn btn-secondary">회원가입 페이지로</a>
       </div>
     </form>
   </div>
