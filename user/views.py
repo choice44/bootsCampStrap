@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 
+
 def signup(request):
     if request.method == 'GET':
         return render(request, 'user/signup.html')
