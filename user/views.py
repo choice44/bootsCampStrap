@@ -18,7 +18,7 @@ def signup(request):
             # password = form.cleaned_data.get('password1')
             # user = authenticate(request, username=username, password=password)
             # login(request, user)
-            return redirect('user/login')
+            return redirect('/user/login')
         else:
             form = UserForm()
             return render(request, 'user/signup.html', {'form' : form})

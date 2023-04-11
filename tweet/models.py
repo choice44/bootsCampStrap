@@ -1,12 +1,13 @@
 from django.db import models
 from user.models import UserModel
+from django.contrib.auth.models import User
+
+
 # Create your models here.
-
-
 class TweetModel(models.Model):
 
     user = models.ForeignKey(
-        UserModel, on_delete=models.CASCADE, verbose_name="이름", related_name='usermodel')
+        User, on_delete=models.CASCADE, verbose_name="이름", related_name='usermodel')
     image = models.URLField(
         '이미지', default='https://i.pinimg.com/originals/b8/7b/94/b87b94048722cfc809bc905823b45909.png')  # 사진이 없어도 트윗 추가 가능
     content = models.TextField("내용")
