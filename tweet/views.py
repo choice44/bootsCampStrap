@@ -18,7 +18,7 @@ def create_tweet(request):
         user = request.user
         tweet_form = TweetForm(request.POST)
         tweet_form_post = tweet_form.save(commit=False)
-        user.save()
+        tweet_form_post.user = user
         tweet_form_post.save()
         return redirect('/')
 
