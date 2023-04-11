@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+    마이 페이지
+{% endblock %}
+{% block content %}
+        <!--오른쪽 컬럼-->
+        <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
+            {% for my_tw in my_tweet %}
+            <div class="card mb-3">
+                    <p class="card-text">{{ my_tw.user }}</p>
+                    <a href='{% url 'detail' my_tw.id %}'>
+                        <img
+                            src="{{ my_tw.image }}"
+                            class="card-img-top"
+                            alt="...">
+                    </a>
+                        <div class="card-body">
+                            <p class="card-text">{{ my_tw.content }}</p>
+                            <p class="card-text" style='text-align: right'>
+                                <small class="text-body-secondary">{{ my_tw.update_at }}</small>
+                            </p>
+                        </div>
+            </div>
+            {% endfor %}
+        </diV>
+    </div>
+{% endblock %}
