@@ -69,15 +69,18 @@
     </nav>
     <!-- 왼쪽 컬럼 -->
     <div style='height:50px'>
+      {% if user.is_authenticated %}
         <a href="{% url 'create_tweet' %}" class="btn btn-secondary" style='text=align:right'>작성하기</a>
+      {% endif %}
     </div>
     <div style='display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;'>
         <div style='grid-column: 1/2; margin: 10px'>
             <div class="card">
-                {% comment %} <div class="card-body">
-                    <!--로그인 된 사람만 보여주기-->
+                <div class="card-body">
+                    {% if user.is_authenticated %}
                     <a href="{%url 'my_page' user.id%}" class="btn btn-secondary">마이페이지</a>
-                </div> {% endcomment %}
+                    {% endif %}
+                </div>
             </div>
         </div>
     {% block content %} {% endblock %}

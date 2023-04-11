@@ -4,11 +4,11 @@
 {% endblock %}
 {% block content %}
         <!--오른쪽 컬럼-->
-        {% comment %} {% if request.username == detail.username %}
-        {% endif %} {% endcomment %}
-        <a class="nav-link" style="text-align:right;" href="{% url 'update' detail.id %}">
-            수정하기
-        <span class="sr-only"></span></a>
+        {% if detail.user == user %}
+            <a class="nav-link" style="text-align:right;" href="{% url 'update' detail.id %}">
+                수정하기
+            <span class="sr-only"></span></a>
+        {% endif %}
         <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
             <div class="card mb-3">
                     <p class="card-text">{{ detail.user }}</p>
@@ -25,7 +25,7 @@
                         <div class="form-floating">
                             <form method='post'>
                             {% csrf_token %}
-                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                                <textarea class="form-control" placeholder="Comment" id="floatingTextarea"></textarea>
                                 <button type="submit" class="btn btn-outline-primary" style='width:100px;'>저장하기</button>
                             </form>
                         </div>

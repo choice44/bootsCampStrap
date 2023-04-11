@@ -13,9 +13,12 @@ def create_tweet(request):
     if request.method == 'GET':
         tweet_create = TweetForm()
         return render(request, 'tweet/create.html', {'create_tweet_form': tweet_create})
+    
     elif request.method == 'POST':
+        user = request.user
         tweet_form = TweetForm(request.POST)
         tweet_form_post = tweet_form.save(commit=False)
+        tweet_form_post.user = user
         tweet_form_post.save()
         return redirect('/')
 
