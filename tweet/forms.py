@@ -6,4 +6,5 @@ from .models import TweetModel
 class TweetForm(forms.ModelForm):
     class Meta:
         model = TweetModel
-        fields = ['user', 'image', 'content']
+        fields = ['image', 'content']
+        #user는 빠져도 되는데 저장할 땐 값이 있어야 한다.
