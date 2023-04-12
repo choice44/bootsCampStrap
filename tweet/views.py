@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.db import transaction
-from .models import UserModel, TweetModel
-from .forms import TweetForm
+from .models import UserModel, TweetModel, CommentModel
+from .forms import TweetForm, CommentForm
 
 
 def home(request):
@@ -73,3 +72,43 @@ def like_create(request, tweet_id):
         tweet.like.add(user)
     return redirect('/tweet')
 
+# 댓글 기능 view
+# writecomment
+
+
+def write_comment(request, id):
+    if request.method == 'POST':
+        comment = request.POST.get("comment", "")
+        current_tweet = TweetModel.objects.get(id=id)
+
+        TC = CommentModel()
+        TC.comment = comment
+        TC.author = request.user
+        TC.tweet = current_tweet
+        TC.save()
+
+        return redirect('/tweet/' + str(id))
+
+# deletecomment
+
+
+def delete_comment(request, id):
+    comment = CommentModel.objects.get(id=id)
+    current_tweet = comment.tweet.id
+    comment.delete()
+    return redirect('/tweet/' + str(current_tweet))
+
+# updatecomment
+
+
+def update_comment(request, id):
+    comment = CommentModel.objects.get(id=id)
+    current_tweet = comment.tweet.id
+    comment.delete()
+    return redirect('/tweet/' + str(current_tweet))
+# commentshow 함수를 따로 작성할지
+# show_tweet 함수에 넣을지는 고민해봐야 할듯
+
+
+# 태그는 고민해보겠음-시간없으면 안만들거임
+# tagcloud
