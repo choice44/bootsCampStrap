@@ -25,7 +25,9 @@
         </div>
         {% for tw in all_tweet %}
         <div class="card mb-3">
-            <p class="card-text">{{ tw.user }}</p>
+            <a href ='{% url 'my_page' tw.user.id %}'>
+                    <p class="card-text">{{ tw.user }}</p>
+                </a>
             <a href='{% url 'detail' tw.id %}'>
                 <img
                         src="{{ tw.image }}"

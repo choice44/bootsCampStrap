@@ -62,7 +62,7 @@ def delete_tweet(request, delete_id):
 def my_page(request, user_id):
     user = UserModel.objects.get(id=user_id)
     my_page = user.tweet.all()
-    return render(request, 'tweet/my_page.html', {'my_tweet': my_page})
+    return render(request, 'tweet/my_page.html', {'my_tweet': my_page, 'my_page_user': user})
 
 
 @login_required(login_url='/user/login')
