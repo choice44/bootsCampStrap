@@ -1,19 +1,19 @@
 from django.db import models
 from user.models import UserModel
-from django.contrib.auth.models import User
 
 
 # Create your models here.
 class TweetModel(models.Model):
 
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, verbose_name="이름", related_name='usermodel')
+        UserModel, on_delete=models.CASCADE, verbose_name="이름", related_name='tweet')
     image = models.URLField(
         '이미지', default='https://i.pinimg.com/originals/b8/7b/94/b87b94048722cfc809bc905823b45909.png')  # 사진이 없어도 트윗 추가 가능
     content = models.TextField("내용")
     update_at = models.DateTimeField(auto_now=True)
     # ordering(피드정렬)='-created_at'
     created_at = models.DateTimeField(auto_now_add=True)
+    like = models.ManyToManyField(UserModel, related_name='likeit')
 
     @property   # 메소드의 return 값을 필드로 정의
     def short_content(self):

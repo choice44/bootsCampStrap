@@ -8,6 +8,7 @@ from .forms import TweetForm
 def home(request):
     return redirect('tweet/')
 
+
 @login_required
 def create_tweet(request):
     if request.method == 'GET':
@@ -33,6 +34,7 @@ def detail_tweet(request, detail_id):
         detail_tweet = TweetModel.objects.filter(id=detail_id).first()
         return render(request, 'tweet/detail_tweet.html', {'detail': detail_tweet})
 
+
 @login_required
 def update_tweet(request, update_id):
     update = TweetModel.objects.filter(id=update_id).first()
@@ -46,14 +48,27 @@ def update_tweet(request, update_id):
         update_post_content.save()
         return redirect('/tweet')
 
+
 @login_required
 def delete_tweet(request, delete_id):
     tweet = TweetModel.objects.get(id=delete_id)
     tweet.delete()
     return redirect('/tweet')
 
+
 @login_required
-def my_page(requst, user_id):
+def my_page(request, user_id):
     user = UserModel.objects.get(id=user_id)
-    my_page = user.usermodel.all()
-    return render(requst, 'tweet/my_page.html', {'my_tweet': my_page})
+    my_page = user.tweet.all()
+    return render(request, 'tweet/my_page.html', {'my_tweet': my_page})
+
+
+@login_required
+def like_create(request, tweet_id):
+    tweet = TweetModel.objects.get(id=tweet_id)
+    user = request.user
+    if tweet.like.all():
+        tweet.like.remove(user)
+    else:
+        tweet.like.add(user)
+    return redirect('/tweet')

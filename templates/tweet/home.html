@@ -3,25 +3,30 @@
     피드 페이지
 {% endblock %}
 {% block content %}
-        <!--오른쪽 컬럼-->
-        <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
-            {% for tw in all_tweet %}
+    <!--오른쪽 컬럼-->
+    <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
+        {% for tw in all_tweet %}
             <div class="card mb-3">
-                    <p class="card-text">{{ tw.user }}</p>
-                    <a href='{% url 'detail' tw.id %}'>
-                        <img
+                <p class="card-text">{{ tw.user }}</p>
+                <a href='{% url 'detail' tw.id %}'>
+                    <img
                             src="{{ tw.image }}"
                             class="card-img-top"
                             alt="...">
-                    </a>
-                        <div class="card-body">
-                            <p class="card-text">{{ tw.content }}</p>
-                            <p class="card-text" style='text-align: right'>
-                                <small class="text-body-secondary">{{ tw.created_at  }}</small>
-                            </p>
-                        </div>
+                </a>
+                {% if user in tw.like.all %}
+                    <a href="{% url 'like_create' tw.id %}">🤍</a>
+                {% else %}
+                    <a href="{% url 'like_create' tw.id %}">♡</a>
+                {% endif %}
+                <div class="card-body">
+                    <p class="card-text">{{ tw.content }}</p>
+                    <p class="card-text" style='text-align: right'>
+                        <small class="text-body-secondary">{{ tw.created_at }}</small>
+                    </p>
+                </div>
             </div>
-            {% endfor %}
-        </diV>
+        {% endfor %}
+    </diV>
     </div>
 {% endblock %}

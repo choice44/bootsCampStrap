@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 def signup(request):
     form = UserForm()
     if request.method == 'GET':
-        return render(request, 'user/signup.html', { 'form' : form })
+        return render(request, 'user/signup.html', {'form': form})
     elif request.method == "POST":
         form = UserForm(request.POST)
         if form.is_valid():
@@ -21,7 +21,7 @@ def signup(request):
             return redirect('/user/login')
         else:
             form = UserForm()
-            return render(request, 'user/signup.html', {'form' : form})
+            return render(request, 'user/signup.html', {'form': form})
 
 
 def login(request):
