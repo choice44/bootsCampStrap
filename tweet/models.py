@@ -13,7 +13,7 @@ class TweetModel(models.Model):
     update_at = models.DateTimeField(auto_now=True)
     # ordering(피드정렬)='-created_at'
     created_at = models.DateTimeField(auto_now_add=True)
-    like = models.ManyToManyField(UserModel, related_name='likeit')
+    like = models.ManyToManyField(UserModel, related_name='likeit', blank=True)
 
     @property   # 메소드의 return 값을 필드로 정의
     def short_content(self):

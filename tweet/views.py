@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from .models import UserModel, TweetModel
@@ -63,13 +64,14 @@ def my_page(request, user_id):
     return render(request, 'tweet/my_page.html', {'my_tweet': my_page})
 
 
-@login_required
+@login_required(login_url='/user/login')
 def like_create(request, tweet_id):
     tweet = TweetModel.objects.get(id=tweet_id)
     user = request.user
     if tweet.like.all():
         tweet.like.remove(user)
+        return JsonResponse({'message': 'deleted', 'like_cnt': tweet.like.count()})
     else:
         tweet.like.add(user)
-    return redirect('/tweet')
+        return JsonResponse({'message': 'added', 'like_cnt': tweet.like.count()})
 
