@@ -4,6 +4,23 @@
 {% endblock %}
 {% block content %}
         <!--오른쪽 컬럼-->
+        {% if user.is_authenticated %}
+            <!--자기 페이지 볼 때 팔로우 숨김-->
+            {% if user.id != my_page_user.id %}
+            <!--user.id가 from_user// my_page_user가 to_user와 같을때-->
+                {% if user in my_page_user.follow.all %}
+                    <p class="card-text"></p>
+                    <a class="nav-link" style="text-align:right;" href='{%url 'user:following' my_page_user.id %}'>
+                        언팔로우
+                    <span class="sr-only"></span></a>
+                {% else %}
+                    <p class="card-text"></p>
+                    <a class="nav-link" style="text-align:right;" href='{%url 'user:following' my_page_user.id %}'>
+                        팔로우
+                    <span class="sr-only"></span></a>
+                {% endif %}
+            {% endif %}
+        {% endif %}
         <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
             {% for my_tw in my_tweet %}
             <div class="card mb-3">

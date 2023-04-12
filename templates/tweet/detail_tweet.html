@@ -11,7 +11,9 @@
         {% endif %}
         <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
             <div class="card mb-3">
-                    <p class="card-text">{{ detail.user }}</p>
+                    <a href ='{% url 'my_page' detail.user.id %}'>
+                        <p class="card-text">{{ detail.user }}</p>
+                    </a>
                     <img
                         src="{{ detail.image }}"
                         class="card-img-top"

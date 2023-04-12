@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import UserModel
 from .forms import UserForm
+from tweet.views import my_page
 from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 def signup(request):
@@ -44,3 +47,19 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect('/')
+
+
+def follow_function(request, user_id):
+    login_user = UserModel.objects.get(id=request.user.id)
+    follow_user = UserModel.objects.get(id=user_id)
+    follow_user_all = follow_user.follow.all()
+
+    if login_user.id != user_id:
+        if login_user in follow_user_all:
+            follow_user.follow.remove(login_user.id)
+            follow_user.save()
+        else:
+            follow_user.follow.add(login_user.id)
+            follow_user.save()
+
+    return HttpResponseRedirect(reverse(my_page, args=[user_id]))
