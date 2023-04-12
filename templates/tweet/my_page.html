@@ -44,7 +44,7 @@
                 <div class="card mb-3">
                     <p class="card-text">{{ my_tw.user }}</p>
                     <a href='{% url 'detail' my_tw.id %}'>
-                        <img src="{{ my_tw.image }}" class="card-img-top" alt="...">
+                        <img src="/media/{{ my_tw.image.path }}" class="card-img-top" alt="...">
                     </a>
                     <p class="post-meta" onclick="sendRequest({{ my_tw.id }}, this)">
                         {% if user in my_tw.like.all %}

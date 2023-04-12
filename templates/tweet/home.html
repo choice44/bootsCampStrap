@@ -30,7 +30,7 @@
                 </a>
             <a href='{% url 'detail' tw.id %}'>
                 <img
-                        src="{{ tw.image }}"
+                        src="/media/{{ tw.image.path }}"
                         class="card-img-top"
                         alt="...">
             </a>
