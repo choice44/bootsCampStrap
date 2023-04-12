@@ -9,6 +9,7 @@
     <h2 class="title-center">로그인</h2>
     <form class="form-area" action="/user/login/" method="post">
       {% csrf_token %}
+      {% include 'user/form_errors.html' %}
       <div class="form-group mt-2 mb-2">
         <label for="username">이름</label>
         <input type="text" class="form-control" id="username" name="username" />
