@@ -81,8 +81,6 @@ def like_create(request, tweet_id):
         return JsonResponse({'message': 'added', 'like_cnt': tweet.like.count()})
 
 
-<< << << < HEAD
-
 # 댓글 기능 view
 # writecomment - 댓글 작성하기
 
