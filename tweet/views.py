@@ -14,7 +14,7 @@ def create_tweet(request):
     if request.method == 'GET':
         tweet_create = TweetForm()
         return render(request, 'tweet/create.html', {'create_tweet_form': tweet_create})
-    
+
     elif request.method == 'POST':
         user = request.user
         tweet_form = TweetForm(request.POST)
@@ -72,3 +72,4 @@ def like_create(request, tweet_id):
     else:
         tweet.like.add(user)
     return redirect('/tweet')
+
