@@ -10,7 +10,7 @@ class TweetForm(forms.ModelForm):
         # user는 빠져도 되는데 저장할 땐 값이 있어야 한다.
 
 
-# 댓글 폼
+# 댓글 폼 - 작성시에만 필요한것 같은데?
 class CommentForm(forms.ModelForm):
     class Meta:
         model = CommentModel

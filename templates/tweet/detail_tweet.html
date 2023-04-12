@@ -43,7 +43,10 @@
                     <small class="text-body-secondary">{{ detail.create_at }}</small>
                 </p>
             </div>
-            {% comment %} 댓글 달기  {% endcomment %}
+        </div>
+            {% comment %} 댓글 작성하기  {% endcomment %}
+
+        <div>
             <div class="form-floating">
                 <form method='post'>
                     {% csrf_token %}
@@ -51,8 +54,29 @@
                     <button type="submit" class="btn btn-outline-primary" style='width:100px;'>저장하기</button>
                 </form>
             </div>
-        </div>
-
+        </diV>
+        {% comment %} 작성 댓글 보이기 {% endcomment %}
+        {% for cm in comment %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="media">
+                                <div class="media-body">
+                                    <h5 class="mt-0"> {{ cm.comment }} </h5>
+                                    <span> {{ cm.author }} </span>
+                                    <span> - {{ cm.created_at | timesince }} 전</span>
+                                </div>
+                                {% if cm.author == user %}
+                                    <div style="float: right">
+                                        <a href="/tweet/comment/delete/{{ cm.id }}">
+                                            <span class="badge bg-danger">삭제</span>
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
 
     </diV>
 </div>

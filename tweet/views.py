@@ -32,7 +32,9 @@ def show_tweet(request):
 def detail_tweet(request, detail_id):
     if request.method == 'GET':
         detail_tweet = TweetModel.objects.filter(id=detail_id).first()
-        return render(request, 'tweet/detail_tweet.html', {'detail': detail_tweet})
+        tweet_comment = CommentModel.objects.filter(
+            tweet_id=detail_id).order_by('-created_at')
+        return render(request, 'tweet/detail_tweet.html', {'detail': detail_tweet, 'comment': tweet_comment})
 
 
 @login_required
@@ -75,9 +77,10 @@ def like_create(request, tweet_id):
         return JsonResponse({'message': 'added', 'like_cnt': tweet.like.count()})
 
 # 댓글 기능 view
-# writecomment
+# writecomment - 댓글 작성하기
 
 
+@login_required
 def write_comment(request, id):
     if request.method == 'POST':
         comment = request.POST.get("comment", "")
@@ -89,25 +92,26 @@ def write_comment(request, id):
         TC.tweet = current_tweet
         TC.save()
 
-        return redirect('/tweet/' + str(id))
+        return redirect('/tweet/detail' + str(id))
 
-# deletecomment
+# deletecomment - 댓글 삭제하기
 
 
+@login_required
 def delete_comment(request, id):
     comment = CommentModel.objects.get(id=id)
     current_tweet = comment.tweet.id
     comment.delete()
-    return redirect('/tweet/' + str(current_tweet))
+    return redirect('/tweet/detail' + str(current_tweet))
 
-# updatecomment
+# updatecomment - 댓글 수정하기
+# def update_comment(request, id):
+#     comment = CommentModel.objects.get(id=id)
+#     current_tweet = comment.tweet.id
+#     comment.delete()
+#     return redirect('/tweet/' + str(current_tweet))
 
 
-def update_comment(request, id):
-    comment = CommentModel.objects.get(id=id)
-    current_tweet = comment.tweet.id
-    comment.delete()
-    return redirect('/tweet/' + str(current_tweet))
 # commentshow 함수를 따로 작성할지
 # show_tweet 함수에 넣을지는 고민해봐야 할듯
 
