@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import UserModel, TweetModel, CommentModel
-from .forms import TweetForm, CommentForm
+from .forms import TweetForm
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 def home(request):
@@ -81,10 +83,10 @@ def like_create(request, tweet_id):
 
 
 @login_required
-def write_comment(request, id):
+def write_comment(request, detail_id):
     if request.method == 'POST':
         comment = request.POST.get("comment", "")
-        current_tweet = TweetModel.objects.get(id=id)
+        current_tweet = TweetModel.objects.get(id=detail_id)
 
         TC = CommentModel()
         TC.comment = comment
@@ -92,24 +94,25 @@ def write_comment(request, id):
         TC.tweet = current_tweet
         TC.save()
 
-        return redirect('/tweet/detail' + str(id))
+        return HttpResponseRedirect(reverse(detail_tweet, args=[detail_id]))
 
 # deletecomment - 댓글 삭제하기
 
 
 @login_required
-def delete_comment(request, id):
-    comment = CommentModel.objects.get(id=id)
+def delete_comment(request, detail_id):
+    comment = CommentModel.objects.get(id=detail_id)
     current_tweet = comment.tweet.id
     comment.delete()
-    return redirect('/tweet/detail' + str(current_tweet))
+    return redirect('/tweet/detail/' + str(current_tweet))
+
 
 # updatecomment - 댓글 수정하기
-# def update_comment(request, id):
-#     comment = CommentModel.objects.get(id=id)
-#     current_tweet = comment.tweet.id
-#     comment.delete()
-#     return redirect('/tweet/' + str(current_tweet))
+def update_comment(request, detail_id):
+    comment = CommentModel.objects.get(id=detail_id)
+    current_tweet = comment.tweet.id
+    comment.update()
+    return redirect('/tweet/detail' + str(current_tweet))
 
 
 # commentshow 함수를 따로 작성할지
