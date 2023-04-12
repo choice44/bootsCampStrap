@@ -3,13 +3,27 @@
     상세 페이지
 {% endblock %}
 {% block content %}
+<div style='display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;'>
+    <!-- 왼쪽 컬럼 -->
+    <div style='grid-column: 1/2; margin: 10px'>
+        {% if user.is_authenticated %}
+        <div class="card">              
+            <div class="card-body">                    
+                <a href="{%url 'my_page' user.id%}" class="btn btn-primary">마이페이지</a>                    
+            </div>      
+        </div>
+        {% endif %}
+    </div>
     <!--오른쪽 컬럼-->
-    {% if detail.user == user %}
-        <a class="nav-link" style="text-align:right;" href="{% url 'update' detail.id %}">
-            수정하기
-            <span class="sr-only"></span></a>
-    {% endif %}
     <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
+        <div style='height:50px'>
+            {% if detail.user == user %}
+            <div style='float:right'>
+                <a href="{% url 'update' detail.id %}" class="btn btn-primary">수정하기</a>
+                <a href="{% url 'delete' detail.id %}" class="btn btn-secondary">삭제하기</a>
+            </div>
+            {% endif %}
+        </div>
         <div class="card mb-3">
             <p class="card-text">{{ detail.user }}</p>
             <img
@@ -40,5 +54,5 @@
 
 
     </diV>
-    </div>
+</div>
 {% endblock %}
