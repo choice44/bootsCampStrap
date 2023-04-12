@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import UserModel, FileUpload
+from .models import UserModel
 
 
 class UserForm(UserCreationForm):
@@ -19,5 +19,5 @@ class EditProfileForm(UserChangeForm):
 class FileForm(forms.ModelForm):
     
     class Meta:
-        model = FileUpload
+        model = UserModel
         fields = ['imgfile']
