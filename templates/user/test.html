@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+사진 업로드 테스트
+{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="wrap">
+    <h2 class="title-center">사진 업로드</h2>
+    <form class="form-area" action="/user/uploadtest/" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form }}
+      <div style="float: right">
+        <button type="submit" class="btn btn-primary">업로드</button>
+        <!-- <a href="{% url 'user:signup' %}" class="btn btn-secondary">회원가입 페이지로</a> -->
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

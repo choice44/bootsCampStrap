@@ -13,3 +13,11 @@ class UserModel(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+
+class FileUpload(models.Model):
+
+    class Meta:
+        db_table = "my_file"
+
+    imgfile = models.ImageField(null=True, upload_to="images", blank=True)
