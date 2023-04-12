@@ -3,6 +3,17 @@
     상세 페이지
 {% endblock %}
 {% block content %}
+<div style='display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;'>
+    <!-- 왼쪽 컬럼 -->
+    <div style='grid-column: 1/2; margin: 10px'>
+        {% if user.is_authenticated %}
+        <div class="card">              
+            <div class="card-body">                    
+                <a href="{%url 'my_page' user.id%}" class="btn btn-primary">마이페이지</a>                    
+            </div>      
+        </div>
+        {% endif %}
+    </div>
     <!--오른쪽 컬럼-->
     {% if detail.user == user %}
         <a class="nav-link" style="text-align:right;" href="{% url 'update' detail.id %}">
@@ -40,5 +51,5 @@
 
 
     </diV>
-    </div>
+</div>
 {% endblock %}
