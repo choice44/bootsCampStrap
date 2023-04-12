@@ -7,8 +7,8 @@ class TweetModel(models.Model):
 
     user = models.ForeignKey(
         UserModel, on_delete=models.CASCADE, verbose_name="이름", related_name='tweet')
-    image = models.URLField(
-        '이미지', default='https://i.pinimg.com/originals/b8/7b/94/b87b94048722cfc809bc905823b45909.png')  # 사진이 없어도 트윗 추가 가능
+    image = models.ImageField(
+        verbose_name='이미지', upload_to="photo/%Y/%m/%d")  # 파일 찾기 기능을 고려 시간대별 저장
     content = models.TextField("내용")
     update_at = models.DateTimeField(auto_now=True)
     # ordering(피드정렬)='-created_at'
