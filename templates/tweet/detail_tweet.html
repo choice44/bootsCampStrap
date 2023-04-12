@@ -25,24 +25,33 @@
             {% endif %}
         </div>
         <div class="card mb-3">
-            <p class="card-text">{{ detail.user }}</p>
-            <img
+            <a href ='{% url 'my_page' detail.user.id %}'>
+                <p class="card-text">{{ detail.user }}</p>
+            </a>
+                <img
                     src="{{ detail.image }}"
                     class="card-img-top"
                     alt="...">
-            <p class="post-meta" onclick="sendRequest({{ detail.id }}, this)">
-                {% if user in detail.like.all %}
-                    ♥ {{ detail.like.count }}
-                {% else %}
-                    ♡ {{ detail.like.count }}
-                {% endif %}
-            </p>
-            <div class="card-body">
-                <p class="card-text">{{ detail.content }}</p>
-                <p class="card-text" style='text-align: right'>
-                    <small class="text-body-secondary">{{ detail.create_at }}</small>
-                </p>
-            </div>
+                    <p class="post-meta" onclick="sendRequest({{ detail.id }}, this)">
+                        {% if user in detail.like.all %}
+                            ♥ {{ detail.like.count }}
+                        {% else %}
+                            ♡ {{ detail.like.count }}
+                        {% endif %}
+                    </p>
+                    <div class="card-body">
+                        <p class="card-text">{{ detail.content }}</p>
+                        <p class="card-text" style='text-align: right'>
+                            <small class="text-body-secondary">{{ detail.create_at }}</small>
+                        </p>
+                    </div>
+                    <div class="form-floating">
+                        <form method='post'>
+                        {% csrf_token %}
+                            <textarea class="form-control" placeholder="Comment" id="floatingTextarea"></textarea>
+                            <button type="submit" class="btn btn-outline-primary" style='width:100px;'>저장하기</button>
+                        </form>
+                    </div>
             <div class="form-floating">
                 <form method='post'>
                     {% csrf_token %}
@@ -51,8 +60,6 @@
                 </form>
             </div>
         </div>
-
-
     </diV>
 </div>
 {% endblock %}
