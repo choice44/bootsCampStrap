@@ -68,7 +68,7 @@ def my_page(request, user_id):
 def like_create(request, tweet_id):
     tweet = TweetModel.objects.get(id=tweet_id)
     user = request.user
-    if tweet.like.all():
+    if user in tweet.like.all():
         tweet.like.remove(user)
         return JsonResponse({'message': 'deleted', 'like_cnt': tweet.like.count()})
     else:
