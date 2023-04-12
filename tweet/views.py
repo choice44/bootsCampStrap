@@ -18,11 +18,13 @@ def create_tweet(request):
         return render(request, 'tweet/create.html', {'create_tweet_form': tweet_create})
 
     elif request.method == 'POST':
-        user = request.user
-        tweet_form = TweetForm(request.POST)
-        tweet_form_post = tweet_form.save(commit=False)
-        tweet_form_post.user = user
-        tweet_form_post.save()
+        tw_f = TweetForm()
+        # form에서 유저를 받지 않으므로 임시저장된 form파일에 로그인 유저를 삽입
+        tw_form = tw_f.save(commit=False)
+        tw_form.image = request.FILES['image']
+        tw_form.content = request.POST['content']
+        tw_form.user = request.user
+        tw_form.save()
         return redirect('/')
 
 
@@ -63,7 +65,7 @@ def delete_tweet(request, delete_id):
 @login_required
 def my_page(request, user_id):
     user = UserModel.objects.get(id=user_id)
-    my_page = user.tweet.all()
+    my_page = user.tweet.all().order_by('-created_at')
     return render(request, 'tweet/my_page.html', {'my_tweet': my_page, 'my_page_user': user})
 
 
@@ -77,6 +79,9 @@ def like_create(request, tweet_id):
     else:
         tweet.like.add(user)
         return JsonResponse({'message': 'added', 'like_cnt': tweet.like.count()})
+
+
+<< << << < HEAD
 
 # 댓글 기능 view
 # writecomment - 댓글 작성하기

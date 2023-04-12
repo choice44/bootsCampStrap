@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import UserModel
-from .forms import UserForm
+from .forms import UserForm, EditProfileForm
 from tweet.views import my_page
 from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib import auth
@@ -25,8 +25,24 @@ def signup_view(request):
         else:
             form = UserForm()
             return render(request, 'user/signup.html', {'form': form})
-        
-        
+
+
+@login_required
+def edit_profile_view(request, pk):
+    user = request.user
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            my_page_url = reverse(
+                'my_page', kwargs={'user_id': request.user.pk})
+            return redirect(my_page_url)
+    else:
+        form = EditProfileForm(instance=user)
+
+    return render(request, 'user/edit_profile.html', {'form': form})
+
+
 def follow_function(request, user_id):
     login_user = UserModel.objects.get(id=request.user.id)
     follow_user = UserModel.objects.get(id=user_id)

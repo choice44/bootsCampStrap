@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    프로필 수정
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="wrap">
+    <h2 class="title-center">프로필 수정</h2>
+    <form class="form-area" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% include 'user/form_errors.html' %}
+      <div class="form-group mt-2 mb-2">
+        <label for="{{ form.bio.id_for_label }}">자기소개</label>
+        {{ form.bio }}
+      </div>
+      <div style="float: right">
+        <button type="submit" class="btn btn-primary">수정</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

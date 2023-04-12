@@ -29,7 +29,7 @@
                 <p class="card-text">{{ detail.user }}</p>
             </a>
                 <img
-                    src="{{ detail.image }}"
+                    src="/media/{{ detail.image.path }}"
                     class="card-img-top"
                     alt="...">
                     <p class="post-meta" onclick="sendRequest({{ detail.id }}, this)">

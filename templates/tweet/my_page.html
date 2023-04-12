@@ -11,6 +11,15 @@
                     <div class="card-body">
                         <a href="{%url 'my_page' user.id%}" class="btn btn-primary">마이페이지</a>
                     </div>
+                    {% if user.id == my_page_user.id %}
+                    <div class="card-body">
+                        <a href="{%url 'user:edit' user.id%}" class="btn btn-primary">수정</a>
+                    </div>
+                    {% endif %}
+                    <div>
+                        <h3>자기소개</h3>
+                        {{ my_page_user.bio}}
+                    </div> 
                 </div>
             {% endif %}
         </div>
@@ -44,7 +53,7 @@
                 <div class="card mb-3">
                     <p class="card-text">{{ my_tw.user }}</p>
                     <a href='{% url 'detail' my_tw.id %}'>
-                        <img src="{{ my_tw.image }}" class="card-img-top" alt="...">
+                        <img src="/media/{{ my_tw.image.path }}" class="card-img-top" alt="...">
                     </a>
                     <p class="post-meta" onclick="sendRequest({{ my_tw.id }}, this)">
                         {% if user in my_tw.like.all %}

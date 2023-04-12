@@ -10,7 +10,7 @@
         <div class="card">              
             <div class="card-body">                    
                 <a href="{%url 'my_page' user.id%}" class="btn btn-primary">마이페이지</a>                    
-            </div>      
+            </div>     
         </div>
         {% endif %}
     </div>
@@ -30,7 +30,7 @@
                 </a>
             <a href='{% url 'detail' tw.id %}'>
                 <img
-                        src="{{ tw.image }}"
+                        src="/media/{{ tw.image.path }}"
                         class="card-img-top"
                         alt="...">
             </a>

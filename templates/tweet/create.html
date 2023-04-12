@@ -20,7 +20,7 @@
         <div style='height:50px'>
         </div>
         <div style="margin: 0px auto 0px auto;">
-            <form method=post>
+            <form method=post enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ create_tweet_form.as_p }}
                 <button type="submit" class="btn btn-primary" style='width:100px;'>저장하기</button>
