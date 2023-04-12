@@ -3,42 +3,54 @@
     마이 페이지
 {% endblock %}
 {% block content %}
-        <!--오른쪽 컬럼-->
-        {% if user.is_authenticated %}
-            <!--자기 페이지 볼 때 팔로우 숨김-->
-            {% if user.id != my_page_user.id %}
+    <!--오른쪽 컬럼-->
+    {% if user.is_authenticated %}
+        <!--자기 페이지 볼 때 팔로우 숨김-->
+        {% if user.id != my_page_user.id %}
             <!--user.id가 from_user// my_page_user가 to_user와 같을때-->
-                {% if user in my_page_user.follow.all %}
-                    <p class="card-text"></p>
-                    <a class="nav-link" style="text-align:right;" href='{%url 'user:following' my_page_user.id %}'>
-                        언팔로우
+            {% if user in my_page_user.follow.all %}
+                <p class="card-text"></p>
+                <a
+                    class="nav-link"
+                    style="text-align:right;"
+                    href='{%url 'user:following' my_page_user.id %}'>
+                    언팔로우
                     <span class="sr-only"></span></a>
-                {% else %}
-                    <p class="card-text"></p>
-                    <a class="nav-link" style="text-align:right;" href='{%url 'user:following' my_page_user.id %}'>
-                        팔로우
+            {% else %}
+                <p class="card-text"></p>
+                <a
+                    class="nav-link"
+                    style="text-align:right;"
+                    href='{%url 'user:following' my_page_user.id %}'>
+                    팔로우
                     <span class="sr-only"></span></a>
-                {% endif %}
             {% endif %}
         {% endif %}
-        <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
-            {% for my_tw in my_tweet %}
+    {% endif %}
+    <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
+        {% for my_tw in my_tweet %}
             <div class="card mb-3">
-                    <p class="card-text">{{ my_tw.user }}</p>
-                    <a href='{% url 'detail' my_tw.id %}'>
-                        <img
-                            src="{{ my_tw.image }}"
-                            class="card-img-top"
-                            alt="...">
-                    </a>
-                        <div class="card-body">
-                            <p class="card-text">{{ my_tw.content }}</p>
-                            <p class="card-text" style='text-align: right'>
-                                <small class="text-body-secondary">{{ my_tw.update_at }}</small>
-                            </p>
-                        </div>
+                <p class="card-text">{{ my_tw.user }}</p>
+                <a href='{% url 'detail' my_tw.id %}'>
+                    <img src="{{ my_tw.image }}" class="card-img-top" alt="...">
+                </a>
+                <p class="post-meta" onclick="sendRequest({{ my_tw.id }}, this)">
+                    {% if user in my_tw.like.all %}
+                        ♥
+                        {{ my_tw.like.count }}
+                    {% else %}
+                        ♡
+                        {{ my_tw.like.count }}
+                    {% endif %}
+                </p>
+                <div class="card-body">
+                    <p class="card-text">{{ my_tw.content }}</p>
+                    <p class="card-text" style='text-align: right'>
+                        <small class="text-body-secondary">{{ my_tw.update_at }}</small>
+                    </p>
+                </div>
             </div>
-            {% endfor %}
-        </diV>
+        {% endfor %}
     </div>
+</div>
 {% endblock %}

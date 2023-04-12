@@ -16,11 +16,13 @@
                             class="card-img-top"
                             alt="...">
                 </a>
-                {% if user in tw.like.all %}
-                    <a href="{% url 'like_create' tw.id %}">🤍</a>
-                {% else %}
-                    <a href="{% url 'like_create' tw.id %}">♡</a>
-                {% endif %}
+                <p class="post-meta" onclick="sendRequest({{ tw.id }}, this)">
+                    {% if user in tw.like.all %}
+                        ♥ {{ tw.like.count }}
+                    {% else %}
+                        ♡ {{ tw.like.count }}
+                    {% endif %}
+                </p>
                 <div class="card-body">
                     <p class="card-text">{{ tw.content }}</p>
                     <p class="card-text" style='text-align: right'>

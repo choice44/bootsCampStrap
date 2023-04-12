@@ -3,19 +3,34 @@
 {% block title %}
     회원가입
 {% endblock %}
-{% block content %}
-    <div class="container">
-        <div class="wrap">
-            <h2 class="title-center"> 회원가입 </h2>
-            <form class="form-area" method="post" action="/user/signup/">
-                {% csrf_token %}
-                {{ form }}
-                <div style="float: right">
-                    <button type="submit" class="btn btn-primary">회원가입</button>
-                    <a href="{% url 'user:login' %}" class="btn btn-secondary">로그인 페이지로</a>
-                    </div>
-            </form>
 
-        </div>
-    </div>
+{% block content %}
+<div class="container">
+  <div class="wrap">
+    <h2 class="title-center">회원가입</h2>
+    <form class="form-area" method="post" action="{% url 'user:signup' %}">
+      {% csrf_token %}
+      <div class="form-group mt-2 mb-2">
+        <label for="{{ form.username.id_for_label }}">아이디</label>
+        {{ form.username }}
+      </div>
+      <div class="form-group mt-2 mb-2">
+        <label for="{{ form.password1.id_for_label }}">비밀번호</label>
+        {{ form.password1 }}
+      </div>
+      <div class="form-group mt-2 mb-2">
+        <label for="{{ form.password2.id_for_label }}">비밀번호 확인</label>
+        {{ form.password2 }}
+      </div>
+      <div class="form-group mt-2 mb-2">
+        <label for="{{ form.bio.id_for_label }}">자기소개</label>
+        {{ form.bio }}
+      </div>
+      <div style="float: right">
+        <button type="submit" class="btn btn-primary">회원가입</button>
+        <a href="{% url 'user:login' %}" class="btn btn-secondary">로그인 페이지로</a>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}
