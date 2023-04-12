@@ -13,5 +13,5 @@ class TweetForm(forms.ModelForm):
 # 댓글 폼
 class CommentForm(forms.ModelForm):
     class Meta:
-        model = CommentModel:
+        model = CommentModel
         fields = ['comment']

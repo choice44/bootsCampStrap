@@ -28,7 +28,7 @@ class CommentModel(models.Model):
     class Meta:
         db_table = "comment"
     tweet = models.ForeignKey(
-        TweetModel, on_delete=models.CASCADE, verbose_name="트윗", related_name='+tweet')
+        TweetModel, on_delete=models.CASCADE, verbose_name="트윗", related_name='tweet+')
     author = models.ForeignKey(
         UserModel, on_delete=models.CASCADE, verbose_name="댓글작성자")
     comment = models.CharField(max_length=256)
