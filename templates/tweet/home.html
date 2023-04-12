@@ -3,32 +3,50 @@
     피드 페이지
 {% endblock %}
 {% block content %}
+<div style='display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;'>
+    <!-- 왼쪽 컬럼 -->
+    <div style='grid-column: 1/2; margin: 10px'>
+        {% if user.is_authenticated %}
+        <div class="card">              
+            <div class="card-body">                    
+                <a href="{%url 'my_page' user.id%}" class="btn btn-primary">마이페이지</a>                    
+            </div>      
+        </div>
+        {% endif %}
+    </div>
     <!--오른쪽 컬럼-->
     <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
-        {% for tw in all_tweet %}
-            <div class="card mb-3">
-                <p class="card-text">{{ tw.user }}</p>
-                <a href='{% url 'detail' tw.id %}'>
-                    <img
-                            src="{{ tw.image }}"
-                            class="card-img-top"
-                            alt="...">
-                </a>
-                <p class="post-meta" onclick="sendRequest({{ tw.id }}, this)">
-                    {% if user in tw.like.all %}
-                        ♥ {{ tw.like.count }}
-                    {% else %}
-                        ♡ {{ tw.like.count }}
-                    {% endif %}
-                </p>
-                <div class="card-body">
-                    <p class="card-text">{{ tw.content }}</p>
-                    <p class="card-text" style='text-align: right'>
-                        <small class="text-body-secondary">{{ tw.created_at }}</small>
-                    </p>
-                </div>
+        <div style='height:50px'>
+            {% if user.is_authenticated %}
+            <div style='float:right'>
+                <a href="{% url 'create_tweet' %}" class="btn btn-primary">작성하기</a>
             </div>
+            {% endif %}
+        </div>
+        {% for tw in all_tweet %}
+        <div class="card mb-3">
+            <p class="card-text">{{ tw.user }}</p>
+            <a href='{% url 'detail' tw.id %}'>
+                <img
+                        src="{{ tw.image }}"
+                        class="card-img-top"
+                        alt="...">
+            </a>
+            <p class="post-meta" onclick="sendRequest({{ tw.id }}, this)">
+                {% if user in tw.like.all %}
+                    ♥ {{ tw.like.count }}
+                {% else %}
+                    ♡ {{ tw.like.count }}
+                {% endif %}
+            </p>
+            <div class="card-body">
+                <p class="card-text">{{ tw.content }}</p>
+                <p class="card-text" style='text-align: right'>
+                    <small class="text-body-secondary">{{ tw.created_at }}</small>
+                </p>
+            </div>
+        </div>
         {% endfor %}
     </diV>
-    </div>
+</div>
 {% endblock %}
