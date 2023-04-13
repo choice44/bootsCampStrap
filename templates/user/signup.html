@@ -26,6 +26,11 @@
         <label for="{{ form.bio.id_for_label }}">자기소개</label>
         {{ form.bio }}
       </div>
+      {% if error %}
+      <div class="alert alert-danger" role="alert">
+          {{ error }}
+      </div>
+      {% endif %}
       <div style="float: right">
         <button type="submit" class="btn btn-primary">회원가입</button>
         <a href="{% url 'user:login' %}" class="btn btn-secondary">로그인 페이지로</a>

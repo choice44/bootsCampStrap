@@ -26,7 +26,8 @@ urlpatterns = [
     path('', include('tweet.urls')),
 ]
 
-# 개발 환경에서 media파일 서빙을 권장하지 않음
+# 개발 환경(runserver)에서 media파일 서빙을 권장하지 않음
+# 사진URL이 입력될 경우 사진을 불러옴.
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)

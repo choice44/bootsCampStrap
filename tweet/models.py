@@ -1,6 +1,6 @@
 from django.db import models
-from user.models import UserModel
 from django.conf import settings
+from user.models import UserModel
 import os
 
 # Create your models here.
@@ -11,13 +11,14 @@ class TweetModel(models.Model):
     user = models.ForeignKey(
         UserModel, on_delete=models.CASCADE, verbose_name="이름", related_name='tweet')
     image = models.ImageField(
-        verbose_name='이미지', upload_to="photo/%Y/%m/%d", blank=True, null=True, default='')  # 파일 찾기 기능을 고려 시간대별 저장
+        verbose_name='이미지', upload_to="photo/%Y/%m/%d", blank=True, null=True)  # 파일 찾기 기능을 고려 시간대별 저장
     content = models.TextField("내용")
     update_at = models.DateTimeField(auto_now=True)
     # ordering(피드정렬)='-created_at'
     created_at = models.DateTimeField(auto_now_add=True)
     like = models.ManyToManyField(UserModel, related_name='likeit', blank=True)
 
+    # admin 페이지에 적용
     @property   # 메소드의 return 값을 필드로 정의
     def short_content(self):
         return self.content[:15]    # title 대신 short_content로 간단하게 admin에서 보여주기

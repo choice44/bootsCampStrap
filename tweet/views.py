@@ -1,17 +1,21 @@
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from .models import UserModel, TweetModel, CommentModel
 from .forms import TweetForm, CommentForm
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 
 
 def home(request):
     return redirect('tweet/')
 
 
-@login_required
+def show_tweet(request):
+    all_tweet = TweetModel.objects.all().order_by('-created_at')
+    return render(request, 'tweet/home.html', {'all_tweet': all_tweet})
+
+
+@login_required(login_url='/user/login')
 def create_tweet(request):
     if request.method == 'GET':
         tweet_create = TweetForm()
@@ -26,47 +30,54 @@ def create_tweet(request):
             tw_form.user = request.user
             tw_f.save()
             return redirect('/')
-
-
-def show_tweet(request):
-    all_tweet = TweetModel.objects.all().order_by('-created_at')
-    return render(request, 'tweet/home.html', {'all_tweet': all_tweet})
+        else:
+            tweet_create = TweetForm()
+            return render(request, 'tweet/create.html', {'create_tweet_form': tweet_create})
 
 
 def detail_tweet(request, detail_id):
-    if request.method == 'GET':
-        detail_tweet = TweetModel.objects.filter(id=detail_id).first()
-        tweet_comment = CommentModel.objects.filter(
-            tweet_id=detail_id).order_by('-created_at')
-        return render(request, 'tweet/detail_tweet.html', {'detail': detail_tweet, 'comment': tweet_comment})
+    detail_tweet = TweetModel.objects.filter(id=detail_id).first()
+    tweet_comment = CommentModel.objects.filter(
+        tweet_id=detail_id).order_by('-created_at')
+    return render(request, 'tweet/detail_tweet.html', {'detail': detail_tweet, 'comment': tweet_comment})
 
 
-@login_required
+@login_required(login_url='/user/login')
 def update_tweet(request, update_id):
+    tweet = TweetModel.objects.get(id=update_id)
     update = TweetModel.objects.filter(id=update_id).first()
-    if request.method == 'GET':
-        update_form = TweetForm(instance=update)
-        return render(request, 'tweet/edit_tweet.html', {'update_form': update_form, 'update_id': update_id})
+    if request.user == tweet.user:
+        if request.method == 'GET':
+            update_form = TweetForm(instance=update)
+            return render(request, 'tweet/edit_tweet.html', {'update_form': update_form, 'update_id': update_id})
 
-    elif request.method == 'POST':
-        update_content = TweetForm(
-            request.POST, request.FILES, instance=update)
-        if update_content.is_valid():
-            update_post_content = update_content.save(commit=False)
-            update_post_content.image = update_content.cleaned_data.get(
-                'image')
-            update_post_content.save()
-            return redirect('/tweet')
+        elif request.method == 'POST':
+            update_content = TweetForm(
+                request.POST, request.FILES, instance=update)
+            if update_content.is_valid():
+                update_post_content = update_content.save(commit=False)
+                update_post_content.image = update_content.cleaned_data.get(
+                    'image')
+                update_post_content.save()
+                return redirect('/tweet')
+            else:
+                update_form = TweetForm(instance=update)
+                return render(request, 'tweet/edit_tweet.html', {'update_form': update_form, 'update_id': update_id})
+    else:
+        return redirect('/')
 
 
-@login_required
+@login_required(login_url='/user/login')
 def delete_tweet(request, delete_id):
+    user = request.user
     tweet = TweetModel.objects.get(id=delete_id)
-    tweet.delete()
-    return redirect('/tweet')
+    if user == tweet.user:
+        tweet.delete()
+        return redirect('/tweet')
+    else:
+        return redirect('/')
 
 
-# @login_required
 def my_page(request, user_id):
     user = UserModel.objects.get(id=user_id)
     my_page = user.tweet.all().order_by('-created_at')
@@ -87,7 +98,7 @@ def like_create(request, tweet_id):
 
 # 댓글 기능 view
 # writecomment - 댓글 작성하기
-@login_required
+@login_required(login_url='/user/login')
 def write_comment(request, detail_id):
     if request.method == 'POST':
         comment = request.POST.get("comment", "")
@@ -99,21 +110,23 @@ def write_comment(request, detail_id):
         TC.tweet = current_tweet
         TC.save()
 
-        return HttpResponseRedirect(reverse(detail_tweet, args=[detail_id]))
-        # return redirect('/tweet/detail/' + str(detail_id))
+        return redirect('/tweet/detail/' + str(detail_id))
 
 
 # deletecomment - 댓글 삭제하기
-@login_required
+@login_required(login_url='/user/login')
 def delete_comment(request, comment_id):
     comment = CommentModel.objects.get(id=comment_id)
     current_tweet = comment.tweet.id
-    comment.delete()
-    return redirect('/tweet/detail/' + str(current_tweet))
+    if request.user == comment.author:
+        comment.delete()
+        return redirect('/tweet/detail/' + str(current_tweet))
+    else:
+        return redirect('/tweet')
 
 
 # updatecomment - 댓글 수정하기
-@login_required
+@login_required(login_url='/user/login')
 def update_comment(request, comment_id):
     update = CommentModel.objects.filter(id=comment_id).first()
     current_tweet = update.tweet.id
