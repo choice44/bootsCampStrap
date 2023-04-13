@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import UserModel
-from .forms import UserForm, EditProfileForm
+from .forms import UserForm, EditProfileForm, FileForm
 from tweet.views import my_page
 from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib import auth
@@ -57,3 +57,19 @@ def follow_function(request, user_id):
             follow_user.save()
 
     return HttpResponseRedirect(reverse(my_page, args=[user_id]))
+
+
+def user_image_upload(request, user_id):
+    if request.method == 'GET':
+        form = FileForm()
+        return render(request, 'user/test.html', {'form': form})
+    elif request.method == "POST":
+        form = FileForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = UserModel.objects.get(id=request.user.id)
+            user.imgfile = form.cleaned_data.get('imgfile')
+            user.save()
+            return redirect('/')
+        else:
+            form = FileForm()
+            return render(request, 'user/test.html', {'form': form})
