@@ -3,81 +3,82 @@
     상세 페이지
 {% endblock %}
 {% block content %}
-<div style='display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;'>
-    <!-- 왼쪽 컬럼 -->
-    <div style='grid-column: 1/2; margin: 10px'>
-        {% if user.is_authenticated %}
-        <div class="card">              
-            <div class="card-body">
-            </div>      
-        </div>
-        {% endif %}
-    </div>
-    <!--오른쪽 컬럼-->
-    <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
-        <!--컬럼 상단-->
-        <div style='height:50px'>
-            {% if detail.user == user %}
-            <div style='float:right'>
-                <a href="{% url 'update' detail.id %}" class="btn btn-primary">수정하기</a>
-                <a href="{% url 'delete' detail.id %}" class="btn btn-secondary">삭제하기</a>
-            </div>
+    <div style='display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;'>
+        <!-- 왼쪽 컬럼 -->
+        <div style='grid-column: 1/2; margin: 10px'>
+            {% if user.is_authenticated %}
+                <div class="card">
+                    <div class="card-body">
+                    </div>
+                </div>
             {% endif %}
         </div>
-        <!--컬럼 본문-->
-        <div class="card mb-3">
-            <p class="card-header">
-                <a href ="{% url 'my_page' detail.user.id %}" style="text-decoration-line: none;">
-                    <img
-                        src="{{ detail.user.imgfile.url }}"
-                        class="rounded-circle"
-                        width="50"
-                        height="50"
-                    >
-                    {{ detail.user }}
-                </a>
-            </p>
-            {% if detail.image %}
-                <img
-                    src="{{ detail.image.url }}"
-                    class="card-img-top"
-                    alt="..." style='padding:10px'>
-                    {% else %}
-                        <div style='height: 250px; background-color: #d3d3d3; margin:10px'>
-                        </div>
-                    {% endif %}
-                    <p class="post-meta" onclick="sendRequest({{ detail.id }}, this)">
-                        {% if user in detail.like.all %}
-                            ♥ {{ detail.like.count }}
-                        {% else %}
-                            ♡ {{ detail.like.count }}
-                        {% endif %}
-                    </p>
-                    <div class="card-body">
-                        <p class="card-text">{{ detail.content }}</p>
-                        <p class="card-text" style='text-align: right'>
-                            <small class="text-body-secondary">{{ detail.create_at }}</small>
-                        </p>
+        <!--오른쪽 컬럼-->
+        <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
+            <!--컬럼 상단-->
+            <div style='height:50px'>
+                {% if detail.user == user %}
+                    <div style='float:right'>
+                        <a href="{% url 'update' detail.id %}" class="btn btn-primary">수정하기</a>
+                        <a href="{% url 'delete' detail.id %}" class="btn btn-secondary">삭제하기</a>
                     </div>
-        </diV> 
-        <div class="card mb-3">      
-{% comment %} 댓글 작성하기  {% endcomment %}
-    {% if user.is_authenticated %}
-            <div class="form-floating">
-                <form method='post' action = {% url 'write-comment' detail.id %}>
-                    {% csrf_token %}
-                    <textarea class="form-control" placeholder="댓글을 작성해 주세요" name='comment' id="floatingTextarea"></textarea>
-                        <button style="float:right" class="btn btn-outline-secondary" type="submit">작성</button>
-                </form>
+                {% endif %}
             </div>
-            <hr>
-    {% endif %}
+            <!--컬럼 본문-->
+            <div class="card mb-3">
+                <p class="card-header">
+                    <a href="{% url 'my_page' detail.user.id %}" style="text-decoration-line: none;">
+                        <img
+                                src="{{ detail.user.imgfile.url }}"
+                                class="rounded-circle"
+                                width="50"
+                                height="50"
+                        >
+                        {{ detail.user }}
+                    </a>
+                </p>
+                {% if detail.image %}
+                    <img
+                            src="{{ detail.image.url }}"
+                            class="card-img-top"
+                            alt="..." style='padding:10px'>
+                {% else %}
+                    <div style='height: 250px; background-color: #d3d3d3; margin:10px'>
+                    </div>
+                {% endif %}
+                <p class="post-meta" onclick="sendRequest({{ detail.id }}, this)">
+                    {% if user in detail.like.all %}
+                        ♥ {{ detail.like.count }}
+                    {% else %}
+                        ♡ {{ detail.like.count }}
+                    {% endif %}
+                </p>
+                <div class="card-body">
+                    <p class="card-text">{{ detail.content }}</p>
+                    <p class="card-text" style='text-align: right'>
+                        <small class="text-body-secondary">{{ detail.create_at }}</small>
+                    </p>
+                </div>
+            </diV>
+            <div class="card mb-3">
+                {% comment %} 댓글 작성하기  {% endcomment %}
+                {% if user.is_authenticated %}
+                    <div class="form-floating">
+                        <form method='post' action= {% url 'write-comment' detail.id %}>
+                            {% csrf_token %}
+                            <textarea class="form-control" placeholder="댓글을 작성해 주세요" name='comment'
+                                      id="floatingTextarea"></textarea>
+                            <button style="float:right" class="btn btn-outline-secondary" type="submit">작성</button>
+                        </form>
+                    </div>
+                    <hr>
+                {% endif %}
 
-        
-            {% comment %} 작성 댓글 보이기 {% endcomment %}
-            <div>
+
+                {% comment %} 작성 댓글 보이기 {% endcomment %}
+                <div>
                     {% for cm in comment %}
-                        <div class="row" style = 'margin: 10px 40px 0px 20px'>
+                        <div class="row" style='margin: 10px 40px 0px 20px'>
                             <div class="col-md-12">
                                 <div class="media">
                                     <div class="media-body">
@@ -87,34 +88,40 @@
                                     </div>
                                     {% if cm.author == user %}
                                         <div style="float: right">
-                                            <a href = '{% url 'delete-comment' cm.id %}' 
-                                            class="btn btn-sm btn-outline-secondary">삭제</a>
+                                            <a href='{% url 'delete-comment' cm.id %}'
+                                               class="btn btn-sm btn-outline-secondary">삭제</a>
                                         </div>
 
                                         {% comment %} 작성 댓글 수정 {% endcomment %}
                                         <div style="float: right">
-                                            <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" onclick="toggleBtn1()"
-                                            style='margin: 0px 10px 0px 0px'>수정</a>
-                                                <div class="form-floating" id="btn1" style='display: none;'>
-                                                    <form method='post' action = {% url 'update-comment' cm.id %}>
-                                                        {% csrf_token %}
-                                                        <textarea class="form-control" placeholder="댓글을 수정해 주세요" name='comment' id="floatingTextarea"></textarea>
-                                                        <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
-                                                            <button class="btn btn-outline-secondary" type="submit">수정</button>
-                                                        </div>
-                                                        
-                                                    </form>
-                                                </div> 
-                                
-                                        </div> 
-                                    {% endif %}  
+                                            <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary"
+                                               onclick="toggleBtn1()"
+                                               style='margin: 0px 10px 0px 0px'>수정</a>
+                                            <div class="form-floating" id="btn1" style='display: none;'>
+                                                <form method='post' action= {% url 'update-comment' cm.id %}>
+                                                    {% csrf_token %}
+                                                    <textarea class="form-control" placeholder="댓글을 수정해 주세요"
+                                                              name='comment' id="floatingTextarea"></textarea>
+                                                    <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
+                                                        <button class="btn btn-outline-secondary" type="submit">수정
+                                                        </button>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <hr>
-                {% endfor %}
+                        <hr>
+                    {% endfor %}
+                </div>
+
+
+            </div>
+
         </diV>
     </diV>
-</div>
 {% endblock %}
