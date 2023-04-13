@@ -35,13 +35,13 @@
             <div class="card mb-3">
                 <a href ='{% url 'my_page' tw.user.id %}'>
                     <img
-                        src="{{ tw.user.profile.image.url }}"
+                        src="{{ tw.user.imgfile.url }}"
                         class="rounded-circle"
                         width="50"
                         height="50"
                         alt="{{ tw.user.username }}"
                     >
-                    <p class="card-text">{{ tw.user.username }}</p>
+                    {{ tw.user.username }}
                 </a>
                 <a href='{% url 'detail' tw.id %}'>
                     <img
