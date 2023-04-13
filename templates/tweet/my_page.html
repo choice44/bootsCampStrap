@@ -60,7 +60,16 @@
             <!--컬럼 본문-->
             {% for my_tw in my_tweet %}
                 <div class="card mb-3">
-                    <p class="card-header">{{ my_tw.user }}</p>
+                    <p class="card-header">
+                        <img
+                            src="{{ my_page_user.imgfile.url }}"
+                            class="rounded-circle"
+                            width="50"
+                            height="50"
+                            alt="{{ my_tw.user }}"
+                        >
+                        {{ my_tw.user }}
+                    </p>
                     {% if my_tw.image %}
                         <a href='{% url 'detail' my_tw.id %}'>
                             <img src="{{ my_tw.image.url }}" class="card-img-top" alt="..." style='padding:10px'>
