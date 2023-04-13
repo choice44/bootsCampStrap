@@ -48,7 +48,7 @@
                     </div>
     </diV>        
 {% comment %} 댓글 작성하기  {% endcomment %}
-    {% comment %} {% if user.is_authenticated %} {% endcomment %}
+    {% if user.is_authenticated %}
             <div class="form-floating">
                 <form method='post' action = {% url 'write-comment' detail.id %}>
                     {% csrf_token %}
@@ -59,6 +59,7 @@
                     
                 </form>
             </div>
+    {% endif %}
 
         
         {% comment %} 작성 댓글 보이기 {% endcomment %}
