@@ -8,14 +8,14 @@
     <div style='grid-column: 1/2; margin: 10px'>
         {% if user.is_authenticated %}
         <div class="card">              
-            <div class="card-body">                    
-                <a href="{%url 'my_page' user.id%}" class="btn btn-primary">마이페이지</a>                    
+            <div class="card-body">
             </div>      
         </div>
         {% endif %}
     </div>
     <!--오른쪽 컬럼-->
     <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
+        <!--컬럼 상단-->
         <div style='height:50px'>
             {% if detail.user == user %}
             <div style='float:right'>
@@ -24,10 +24,11 @@
             </div>
             {% endif %}
         </div>
+        <!--컬럼 본문-->
         <div class="card mb-3">
-            <a href ='{% url 'my_page' detail.user.id %}'>
-                <p class="card-text">{{ detail.user }}</p>
-            </a>
+            <p class="card-text">
+                <a href ="{% url 'my_page' detail.user.id %}" style="text-decoration-line: none;">{{ detail.user }}</a>
+            </p>
                 <img
                     src="/media/{{ detail.image.path }}"
                     class="card-img-top"
@@ -45,21 +46,53 @@
                             <small class="text-body-secondary">{{ detail.create_at }}</small>
                         </p>
                     </div>
-                    <div class="form-floating">
-                        <form method='post'>
-                        {% csrf_token %}
-                            <textarea class="form-control" placeholder="Comment" id="floatingTextarea"></textarea>
-                            <button type="submit" class="btn btn-outline-primary" style='width:100px;'>저장하기</button>
-                        </form>
-                    </div>
+    </diV>        
+{% comment %} 댓글 작성하기  {% endcomment %}
+    {% if user.is_authenticated %}
             <div class="form-floating">
-                <form method='post'>
+                <a>{{detail.id}}</a>
+                <form method='post' action = {% url 'write-comment' detail.id %}>
                     {% csrf_token %}
-                    <textarea class="form-control" placeholder="Comment" id="floatingTextarea"></textarea>
-                    <button type="submit" class="btn btn-outline-primary" style='width:100px;'>저장하기</button>
+                    <textarea class="form-control" placeholder="댓글을 작성해 주세요" name='comment' id="floatingTextarea"></textarea>
+                    <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
+                        <button class="btn btn-outline-secondary" type="submit">작성</button>
+                    </div>
+                    
                 </form>
             </div>
-        </div>
+
+        
+        {% comment %} 작성 댓글 보이기 {% endcomment %}
+        <div>
+                {% for cm in comment %}
+                    <div class="row" style = 'margin: 10px 40px 0px 20px'>
+                        <div class="col-md-12">
+                            <div class="media">
+                                <div class="media-body">
+                                    <h5 class="mt-0"> {{ cm.comment }} </h5>
+                                    <span> {{ cm.author }} </span>
+                                    <span> - {{ cm.created_at | timesince }} 전</span>
+                                </div>
+                                {% if cm.author == user %}
+                                    <div style="float: right">
+                                        <a href = '{% url 'delete-comment' cm.id %}'>
+                                            <span class="badge bg-danger">삭제</span>
+                                        </a>
+                                    </div>
+                                    <div style="float: right">
+                                        <a href = '{% url 'delete-comment' cm.id %}'>
+                                            <span class="badge bg-danger">수정</span>
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+        </diV>       
+    {% endif %}
+    
     </diV>
 </div>
 {% endblock %}

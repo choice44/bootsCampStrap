@@ -9,9 +9,6 @@
         {% if user.is_authenticated %}
         <div class="card">              
             <div class="card-body">                    
-                <a href="{%url 'my_page' user.id %}" class="btn btn-primary">마이페이지</a>                    
-            </div>  
-            <div class="card-body">                    
                 <a href="{%url 'followers' %}" class="btn btn-primary">팔로우 게시물</a>                    
             </div> 
             <div class="card mt-3">
@@ -33,6 +30,7 @@
     </div>
     <!--오른쪽 컬럼-->
     <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
+        <!--컬럼 상단-->
         <div style='height:50px'>
             {% if user.is_authenticated %}
             <div style='float:right'>
@@ -40,11 +38,12 @@
             </div>
             {% endif %}
         </div>
+        <!--컬럼 본문-->
         {% for tw in all_tweet %}
         <div class="card mb-3">
-            <a href ='{% url 'my_page' tw.user.id %}'>
-                    <p class="card-text">{{ tw.user }}</p>
-                </a>
+                    <p class="card-header">
+                        <a href ="{% url 'my_page' tw.user.id %}" style="text-decoration-line: none;">{{ tw.user }}</a>
+                    </p>
             <a href='{% url 'detail' tw.id %}'>
                 <img
                         src="/media/{{ tw.image.path }}"
