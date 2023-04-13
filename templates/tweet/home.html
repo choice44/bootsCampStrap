@@ -48,10 +48,6 @@
         <!--컬럼 본문-->
         {% for tw in all_tweet %}
         <div class="card mb-3">
-<<<<<<< HEAD
-            <p class="card-header">
-                        <a href ="{% url 'my_page' tw.user.id %}" style="text-decoration-line: none;">{{ tw.user }}</a>
-=======
                     <p class="card-header">
                         <a href ="{% url 'my_page' tw.user.id %}" style="text-decoration-line: none;">
                             <img
@@ -63,7 +59,6 @@
                             >
                             {{ tw.user }}
                         </a>
->>>>>>> style
                     </p>
             {% if tw.image %}
                 <a href='{% url 'detail' tw.id %}'>
