@@ -33,16 +33,18 @@
             </div>
             {% for tw in all_follow_tweet %}
             <div class="card mb-3">
-                <a href ='{% url 'my_page' tw.user.id %}'>
-                    <img
-                        src="{{ tw.user.imgfile.url }}"
-                        class="rounded-circle"
-                        width="50"
-                        height="50"
-                        alt="{{ tw.user.username }}"
-                    >
-                    {{ tw.user.username }}
-                </a>
+                <p class="card-header">
+                    <a href ='{% url 'my_page' tw.user.id %}' style="text-decoration-line: none;">
+                        <img
+                            src="{{ tw.user.imgfile.url }}"
+                            class="rounded-circle"
+                            width="50"
+                            height="50"
+                            alt="{{ tw.user.username }}"
+                        >
+                        {{ tw.user.username }}
+                    </a>
+                </p>
                 <a href='{% url 'detail' tw.id %}'>
                     <img
                         src="/media/{{ tw.image.path }}"

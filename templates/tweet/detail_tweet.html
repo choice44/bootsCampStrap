@@ -26,8 +26,17 @@
         </div>
         <!--컬럼 본문-->
         <div class="card mb-3">
-            <p class="card-text">
-                <a href ="{% url 'my_page' detail.user.id %}" style="text-decoration-line: none;">{{ detail.user }}</a>
+            <p class="card-header">
+                <a href ="{% url 'my_page' detail.user.id %}" style="text-decoration-line: none;">
+                    <img
+                        src="{{ detail.user.imgfile.url }}"
+                        class="rounded-circle"
+                        width="50"
+                        height="50"
+                        alt="{{ tw.user.username }}"
+                    >
+                    {{ detail.user }}
+                </a>
             </p>
                 <img
                     src="/media/{{ detail.image.path }}"
