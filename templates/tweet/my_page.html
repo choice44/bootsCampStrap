@@ -8,51 +8,60 @@
         <div style='grid-column: 1/2; margin: 10px'>
             {% if user.is_authenticated %}
                 <div class="card">
+                    {% if my_page_user.imgfile %}
                     <div class="card-body">
-                        <a href="{%url 'my_page' user.id%}" class="btn btn-primary">마이페이지</a>
-                    </div>
-                    {% if user.id == my_page_user.id %}
-                    <div class="card-body">
-                        <a href="{%url 'user:edit' user.id%}" class="btn btn-primary">수정</a>
+                        <img src="{{ my_page_user.imgfile.url }}" class="card-img-top" alt="...">
                     </div>
                     {% endif %}
-                    <div>
-                        <h3>자기소개</h3>
+                    <div class="card-body">
+                        <h5>자기소개</h5>
                         {{ my_page_user.bio}}
                     </div> 
+                    
+                    {% if user.id == my_page_user.id %}
+                    <div>
+                        <a href="{%url 'user:edit' user.id%}" class="btn btn-primary">수정</a>
+                        <a href="{%url 'user:user_image_upload' user.id%}" class="btn btn-secondary">이미지등록</a>
+                    </div>
+                    {% endif %}
                 </div>
             {% endif %}
         </div>
         <!--오른쪽 컬럼-->
-        {% if user.is_authenticated %}
-            <!--자기 페이지 볼 때 팔로우 숨김-->
-            {% if user.id != my_page_user.id %}
-                <!--user.id가 from_user// my_page_user가 to_user와 같을때-->
-                {% if user in my_page_user.follow.all %}
-                    <p class="card-text"></p>
-                    <a
-                        class="nav-link"
-                        style="text-align:right;"
-                        href='{%url 'user:following' my_page_user.id %}'>
-                        언팔로우
-                        <span class="sr-only"></span></a>
-                {% else %}
-                    <p class="card-text"></p>
-                    <a
-                        class="nav-link"
-                        style="text-align:right;"
-                        href='{%url 'user:following' my_page_user.id %}'>
-                        팔로우
-                        <span class="sr-only"></span></a>
+        <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
+            <!--컬럼 상단-->
+            <div style='height:50px'>
+                {% if user.is_authenticated %}
+                <!--자기 페이지 볼 때 팔로우 숨김-->
+                {% if user.id != my_page_user.id %}
+                    <!--user.id가 from_user// my_page_user가 to_user와 같을때-->
+                    {% if user in my_page_user.follow.all %}
+                        <div style='float:right'>
+                            <a
+                                class="btn btn-secondary"
+                                style="text-align:right;"
+                                href="{%url 'user:following' my_page_user.id %}">
+                                언팔로우
+                            </a>
+                        </div>
+                    {% else %}
+                        <div style='float:right'>
+                            <a
+                                class="btn btn-primary"
+                                style="text-align:right;"
+                                href="{%url 'user:following' my_page_user.id %}">
+                                팔로우
+                            </a>
+                        </div>
+                    {% endif %}
                 {% endif %}
             {% endif %}
-        {% endif %}
-        <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
-            <div style='height:50px'></div>
+            </div>
+            <!--컬럼 본문-->
             {% for my_tw in my_tweet %}
                 <div class="card mb-3">
-                    <p class="card-text">{{ my_tw.user }}</p>
-                    <a href='{% url 'detail' my_tw.id %}'>
+                    <p class="card-header">{{ my_tw.user }}</p>
+                    <a href="{% url 'detail' my_tw.id %}">
                         <img src="/media/{{ my_tw.image.path }}" class="card-img-top" alt="...">
                     </a>
                     <p class="post-meta" onclick="sendRequest({{ my_tw.id }}, this)">

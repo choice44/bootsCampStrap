@@ -62,7 +62,7 @@ def delete_tweet(request, delete_id):
     return redirect('/tweet')
 
 
-@login_required
+# @login_required
 def my_page(request, user_id):
     user = UserModel.objects.get(id=user_id)
     my_page = user.tweet.all().order_by('-created_at')
