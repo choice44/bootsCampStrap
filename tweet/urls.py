@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from user.views import follow_tweet_view
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -20,5 +21,5 @@ urlpatterns = [
     path('tweet/delete/<int:delete_id>', views.delete_tweet, name='delete'),
     path('tweet/mypage/<int:user_id>', views.my_page, name='my_page'),
     path('tweet/likes/<int:tweet_id>', views.like_create, name='like_create'),
-
+    path('tweet/followers', follow_tweet_view, name='followers'),
 ]
