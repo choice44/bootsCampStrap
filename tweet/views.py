@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import UserModel, TweetModel, CommentModel
-from .forms import TweetForm
+from .forms import TweetForm, CommentForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
@@ -83,8 +83,6 @@ def like_create(request, tweet_id):
 
 # 댓글 기능 view
 # writecomment - 댓글 작성하기
-
-
 @login_required
 def write_comment(request, detail_id):
     if request.method == 'POST':
@@ -98,29 +96,28 @@ def write_comment(request, detail_id):
         TC.save()
 
         return HttpResponseRedirect(reverse(detail_tweet, args=[detail_id]))
+        # return redirect('/tweet/detail/' + str(detail_id))
+
 
 # deletecomment - 댓글 삭제하기
-
-
 @login_required
-def delete_comment(request, detail_id):
-    comment = CommentModel.objects.get(id=detail_id)
+def delete_comment(request, comment_id):
+    comment = CommentModel.objects.get(id=comment_id)
     current_tweet = comment.tweet.id
     comment.delete()
     return redirect('/tweet/detail/' + str(current_tweet))
 
 
 # updatecomment - 댓글 수정하기
-def update_comment(request, detail_id):
-    comment = CommentModel.objects.get(id=detail_id)
-    current_tweet = comment.tweet.id
-    comment.update()
-    return redirect('/tweet/detail' + str(current_tweet))
-
-
-# commentshow 함수를 따로 작성할지
-# show_tweet 함수에 넣을지는 고민해봐야 할듯
-
-
-# 태그는 고민해보겠음-시간없으면 안만들거임
-# tagcloud
+@login_required
+def update_comment(request, comment_id):
+    update = CommentModel.objects.filter(id=comment_id).first()
+    current_tweet = update.tweet.id
+    if request.method == 'GET':
+        update_form = CommentForm(instance=update)
+        return render(request, 'tweet/detail_tweet.html', {'update_form': update_form, 'comment_id': comment_id})
+    elif request.method == 'POST':
+        update_comment = CommentForm(request.POST, instance=update)
+        update_comment_save = update_comment.save(commit=False)
+        update_comment_save.save()
+        return redirect('/tweet/detail/' + str(current_tweet))

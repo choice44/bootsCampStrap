@@ -50,16 +50,16 @@
 {% comment %} 댓글 작성하기  {% endcomment %}
     {% if user.is_authenticated %}
             <div class="form-floating">
-                <a>{{detail.id}}</a>
                 <form method='post' action = {% url 'write-comment' detail.id %}>
                     {% csrf_token %}
                     <textarea class="form-control" placeholder="댓글을 작성해 주세요" name='comment' id="floatingTextarea"></textarea>
-                    <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
+                    <div style='display:grid; grid-column: 2/4; margin: 10px 0px 0px 700px'>
                         <button class="btn btn-outline-secondary" type="submit">작성</button>
                     </div>
                     
                 </form>
             </div>
+    {% endif %}
 
         
         {% comment %} 작성 댓글 보이기 {% endcomment %}
@@ -71,27 +71,38 @@
                                 <div class="media-body">
                                     <h5 class="mt-0"> {{ cm.comment }} </h5>
                                     <span> {{ cm.author }} </span>
-                                    <span> - {{ cm.created_at | timesince }} 전</span>
+                                    <span> - {{ cm.updated_at | timesince }} 전</span>
                                 </div>
                                 {% if cm.author == user %}
                                     <div style="float: right">
-                                        <a href = '{% url 'delete-comment' cm.id %}'>
-                                            <span class="badge bg-danger">삭제</span>
-                                        </a>
+                                        <a href = '{% url 'delete-comment' cm.id %}' 
+                                        class="btn btn-sm btn-outline-secondary">삭제</a>
                                     </div>
+
+                                    {% comment %} 작성 댓글 수정 {% endcomment %}
                                     <div style="float: right">
-                                        <a href = '{% url 'delete-comment' cm.id %}'>
-                                            <span class="badge bg-danger">수정</span>
-                                        </a>
-                                    </div>
-                                {% endif %}
+                                        <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" onclick="toggleBtn1()"
+                                        style='margin: 0px 10px 0px 0px'>수정</a>
+                                            <div class="form-floating" id="btn1" style='display: none;'>
+                                                <form method='post' action = {% url 'update-comment' cm.id %}>
+                                                    {% csrf_token %}
+                                                    <textarea class="form-control" placeholder="댓글을 수정해 주세요" name='comment' id="floatingTextarea"></textarea>
+                                                    <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
+                                                        <button class="btn btn-outline-secondary" type="submit">수정</button>
+                                                    </div>
+                                                    
+                                                </form>
+                                            </div> 
+                            
+                                    </div> 
+                                {% endif %}  
                             </div>
                         </div>
                     </div>
                     <hr>
                 {% endfor %}
         </diV>       
-    {% endif %}
+    {% comment %} {% endif %} {% endcomment %}
     
     </diV>
 </div>
