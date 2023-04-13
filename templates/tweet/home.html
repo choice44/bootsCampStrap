@@ -8,8 +8,23 @@
     <div style='grid-column: 1/2; margin: 10px'>
         {% if user.is_authenticated %}
         <div class="card">              
-            <div class="card-body">
-            </div>     
+            <div class="card-body">                    
+                <a href="{%url 'followers' %}" class="btn btn-primary">팔로우 게시물</a>                    
+            </div> 
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">팔로우 리스트</h5>
+                    <ul class="list-group list-group-flush">
+                        {% for follower in user.follower.all %}
+                            <li class="list-group-item">
+                                <a href="{% url 'my_page' follower.id %}">
+                                    {{ follower.username }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>   
         </div>
         {% endif %}
     </div>
