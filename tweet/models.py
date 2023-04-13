@@ -1,14 +1,17 @@
 from django.db import models
 from user.models import UserModel
-
+from django.conf import settings
+import os
 
 # Create your models here.
+
+
 class TweetModel(models.Model):
 
     user = models.ForeignKey(
         UserModel, on_delete=models.CASCADE, verbose_name="이름", related_name='tweet')
     image = models.ImageField(
-        verbose_name='이미지', upload_to="photo/%Y/%m/%d")  # 파일 찾기 기능을 고려 시간대별 저장
+        verbose_name='이미지', upload_to="photo/%Y/%m/%d", blank=True, null=True, default='')  # 파일 찾기 기능을 고려 시간대별 저장
     content = models.TextField("내용")
     update_at = models.DateTimeField(auto_now=True)
     # ordering(피드정렬)='-created_at'
@@ -21,6 +24,12 @@ class TweetModel(models.Model):
 
     def __str__(self):
         return self.short_content
+
+    # 게시글 삭제되면 midea 폴더의 이미지도 날림
+    def delete(self, *args, **kargs):
+        if self.image:
+            os.remove(os.path.join(settings.MEDIA_ROOT, self.image.path))
+        super(TweetModel, self).delete(*args, **kargs)
 
 
 # 댓글 모델

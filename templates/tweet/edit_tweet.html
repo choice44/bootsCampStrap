@@ -20,7 +20,7 @@
         </div>
         <!--컬럼 본문-->
         <div style="margin: 0px auto 0px auto;">
-            <form method='post'>
+            <form method='post' enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ update_form.as_p }}
                 <div style="float: right">
