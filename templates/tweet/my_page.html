@@ -52,9 +52,16 @@
             {% for my_tw in my_tweet %}
                 <div class="card mb-3">
                     <p class="card-text">{{ my_tw.user }}</p>
-                    <a href='{% url 'detail' my_tw.id %}'>
-                        <img src="/media/{{ my_tw.image.path }}" class="card-img-top" alt="...">
-                    </a>
+                    {% if my_tw.image %}
+                        <a href='{% url 'detail' my_tw.id %}'>
+                            <img src="{{ my_tw.image.url }}" class="card-img-top" alt="..." style='padding:10px'>
+                        </a>
+                    {% else %}
+                        <a href ='{% url 'detail' my_tw.id %}'>
+                            <div style='height: 250px; background-color: #d3d3d3; margin:10px'>
+                            </div>
+                        </a>
+                    {% endif %}
                     <p class="post-meta" onclick="sendRequest({{ my_tw.id }}, this)">
                         {% if user in my_tw.like.all %}
                             ♥

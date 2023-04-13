@@ -18,14 +18,14 @@ def create_tweet(request):
         return render(request, 'tweet/create.html', {'create_tweet_form': tweet_create})
 
     elif request.method == 'POST':
-        tw_f = TweetForm()
+        tw_f = TweetForm(request.POST, request.FILES)
         # form에서 유저를 받지 않으므로 임시저장된 form파일에 로그인 유저를 삽입
-        tw_form = tw_f.save(commit=False)
-        tw_form.image = request.FILES['image']
-        tw_form.content = request.POST['content']
-        tw_form.user = request.user
-        tw_form.save()
-        return redirect('/')
+        if tw_f.is_valid():
+            tw_f.image = tw_f.cleaned_data.get('image')
+            tw_form = tw_f.save(commit=False)
+            tw_form.user = request.user
+            tw_f.save()
+            return redirect('/')
 
 
 def show_tweet(request):
@@ -49,10 +49,14 @@ def update_tweet(request, update_id):
         return render(request, 'tweet/edit_tweet.html', {'update_form': update_form, 'update_id': update_id})
 
     elif request.method == 'POST':
-        update_content = TweetForm(request.POST, instance=update)
-        update_post_content = update_content.save(commit=False)
-        update_post_content.save()
-        return redirect('/tweet')
+        update_content = TweetForm(
+            request.POST, request.FILES, instance=update)
+        if update_content.is_valid():
+            update_post_content = update_content.save(commit=False)
+            update_post_content.image = update_content.cleaned_data.get(
+                'image')
+            update_post_content.save()
+            return redirect('/tweet')
 
 
 @login_required

@@ -28,10 +28,15 @@
             <a href ='{% url 'my_page' detail.user.id %}'>
                 <p class="card-text">{{ detail.user }}</p>
             </a>
+                {% if detail.image %}
                 <img
-                    src="/media/{{ detail.image.path }}"
+                    src="{{ detail.image.url }}"
                     class="card-img-top"
-                    alt="...">
+                    alt="..." style='padding:10px'>
+                    {% else %}
+                        <div style='height: 250px; background-color: #d3d3d3; margin:10px'>
+                        </div>
+                    {% endif %}
                     <p class="post-meta" onclick="sendRequest({{ detail.id }}, this)">
                         {% if user in detail.like.all %}
                             ♥ {{ detail.like.count }}
