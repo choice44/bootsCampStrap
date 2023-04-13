@@ -61,21 +61,12 @@
             {% for my_tw in my_tweet %}
                 <div class="card mb-3">
                     <p class="card-header">
-                        {% if my_page_user.imgfile %}
                         <img
                             src="{{ my_page_user.imgfile.url }}"
                             class="rounded-circle"
                             width="50"
                             height="50"
                         >
-                        {% else %}
-                        <img
-                            src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA2MDdfNyAg%2FMDAxNjU0NTY1NjQ5NzU5.9z_u_FB-IPFLFKsHxnCFtcbZ8Cwa5D9b42ddQO5RNJ8g.SzUdU3OjRqZRhUAOk1cnO6XTJgvAiXgHNux86FHUlTog.PNG.jasonhcho%2F1.png&type=sc960_832"
-                            class="rounded-circle"
-                            width="50"
-                            height="50"
-                        >
-                        {% endif %}
                         {{ my_tw.user }}
                     </p>
                     {% if my_tw.image %}
