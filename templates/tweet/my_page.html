@@ -6,7 +6,7 @@
     <div style='display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;'>
         <!-- 왼쪽 컬럼 -->
         <div style='grid-column: 1/2; margin: 10px'>
-            {% if user.is_authenticated %}
+            <!-- 컬럼 본문 -->
                 <div class="card">
                     {% if my_page_user.imgfile %}
                     <div class="card-body">
@@ -14,10 +14,11 @@
                     </div>
                     {% endif %}
                     <div class="card-body">
-                        <h5>자기소개</h5>
-                        {{ my_page_user.bio}}
+                        <h5 class="card-title">{{ my_page_user.username }}</h5>
+                        <hr>
+                        <h6 class="card-subtitle">자기소개</h6>
+                        <p class="card-text">{{ my_page_user.bio}}</p>
                     </div> 
-                    
                     {% if user.id == my_page_user.id %}
                     <div>
                         <a href="{%url 'user:edit' user.id%}" class="btn btn-primary">수정</a>
@@ -25,7 +26,6 @@
                     </div>
                     {% endif %}
                 </div>
-            {% endif %}
         </div>
         <!--오른쪽 컬럼-->
         <div style='display:grid; grid-column: 2/4; margin: 10px 40px 0px 20px'>
@@ -61,13 +61,21 @@
             {% for my_tw in my_tweet %}
                 <div class="card mb-3">
                     <p class="card-header">
+                        {% if my_page_user.imgfile %}
                         <img
                             src="{{ my_page_user.imgfile.url }}"
                             class="rounded-circle"
                             width="50"
                             height="50"
-                            alt="{{ my_tw.user }}"
                         >
+                        {% else %}
+                        <img
+                            src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA2MDdfNyAg%2FMDAxNjU0NTY1NjQ5NzU5.9z_u_FB-IPFLFKsHxnCFtcbZ8Cwa5D9b42ddQO5RNJ8g.SzUdU3OjRqZRhUAOk1cnO6XTJgvAiXgHNux86FHUlTog.PNG.jasonhcho%2F1.png&type=sc960_832"
+                            class="rounded-circle"
+                            width="50"
+                            height="50"
+                        >
+                        {% endif %}
                         {{ my_tw.user }}
                     </p>
                     {% if my_tw.image %}

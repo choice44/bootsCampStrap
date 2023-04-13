@@ -7,7 +7,8 @@
     <!-- 왼쪽 컬럼 -->
     <div style='grid-column: 1/2; margin: 10px'>
         {% if user.is_authenticated %}
-        <div class="card">              
+        <!-- 컬럼 본문 -->
+        <div class="card">      
             <div class="card-body">                    
                 <a href="{%url 'followers' %}" class="btn btn-primary">팔로우 게시물</a>                    
             </div> 
@@ -18,13 +19,21 @@
                         {% for follower in user.follower.all %}
                             <li class="list-group-item">
                                 <a href="{% url 'my_page' follower.id %}" style="text-decoration-line: none;">
+                                    {% if follower.imgfile %}
                                     <img
                                         src="{{ follower.imgfile.url }}"
                                         class="rounded-circle"
                                         width="50"
                                         height="50"
-                                        alt="{{ follower.username }}"
                                     >
+                                    {% else %}
+                                    <img
+                                        src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA2MDdfNyAg%2FMDAxNjU0NTY1NjQ5NzU5.9z_u_FB-IPFLFKsHxnCFtcbZ8Cwa5D9b42ddQO5RNJ8g.SzUdU3OjRqZRhUAOk1cnO6XTJgvAiXgHNux86FHUlTog.PNG.jasonhcho%2F1.png&type=a340"
+                                        class="rounded-circle"
+                                        width="50"
+                                        height="50"
+                                    >
+                                    {% endif %}
                                     {{ follower.username }}
                                 </a>
                             </li>
@@ -50,13 +59,21 @@
         <div class="card mb-3">
                     <p class="card-header">
                         <a href ="{% url 'my_page' tw.user.id %}" style="text-decoration-line: none;">
-                            <img
-                                src="{{ tw.user.imgfile.url }}"
-                                class="rounded-circle"
-                                width="50"
-                                height="50"
-                                alt="{{ tw.user }}"
-                            >
+                        {% if tw.user.imgfile %}
+                        <img
+                            src="{{ tw.user.imgfile.url }}"
+                            class="rounded-circle"
+                            width="50"
+                            height="50"
+                        >
+                        {% else %}
+                        <img
+                            src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA2MDdfNyAg%2FMDAxNjU0NTY1NjQ5NzU5.9z_u_FB-IPFLFKsHxnCFtcbZ8Cwa5D9b42ddQO5RNJ8g.SzUdU3OjRqZRhUAOk1cnO6XTJgvAiXgHNux86FHUlTog.PNG.jasonhcho%2F1.png&type=a340"
+                            class="rounded-circle"
+                            width="50"
+                            height="50"
+                        >
+                        {% endif %}
                             {{ tw.user }}
                         </a>
                     </p>
