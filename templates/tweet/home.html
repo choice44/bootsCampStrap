@@ -26,7 +26,7 @@
         <!--컬럼 본문-->
         {% for tw in all_tweet %}
         <div class="card mb-3">
-                    <p class="card-text">
+                    <p class="card-header">
                         <a href ="{% url 'my_page' tw.user.id %}" style="text-decoration-line: none;">{{ tw.user }}</a>
                     </p>
             <a href='{% url 'detail' tw.id %}'>
