@@ -62,7 +62,7 @@ def follow_function(request, user_id):
 def user_image_upload(request, user_id):
     if request.method == 'GET':
         form = FileForm()
-        return render(request, 'user/test.html', {'form': form})
+        return render(request, 'user/user_image_upload.html', {'form': form})
     elif request.method == "POST":
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
@@ -72,4 +72,4 @@ def user_image_upload(request, user_id):
             return redirect('/')
         else:
             form = FileForm()
-            return render(request, 'user/test.html', {'form': form})
+            return render(request, 'user/user_image_upload.html', {'form': form})
