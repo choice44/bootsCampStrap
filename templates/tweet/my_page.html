@@ -10,7 +10,7 @@
                 <div class="card">
                     {% if my_page_user.imgfile %}
                     <div class="card-body">
-                        <img src="/media/{{ my_page_user.imgfile.path }}" class="card-img-top" alt="...">
+                        <img src="{{ my_page_user.imgfile.url }}" class="card-img-top" alt="...">
                     </div>
                     {% endif %}
                     <div class="card-body">
