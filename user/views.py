@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import UserModel
-from .forms import UserForm, EditProfileForm
+from .forms import UserForm, EditProfileForm, FileForm
 from tweet.views import my_page
+from tweet.models import TweetModel
 from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
@@ -57,3 +58,29 @@ def follow_function(request, user_id):
             follow_user.save()
 
     return HttpResponseRedirect(reverse(my_page, args=[user_id]))
+
+
+@login_required
+def follow_tweet_view(request):
+    login_user = request.user
+    follow_users = login_user.follower.all()
+    follow_users_ids = [user.id for user in follow_users]
+    follow_tweet = TweetModel.objects.filter(user_id__in=follow_users_ids)
+    all_follow_tweet = follow_tweet.order_by('-created_at')
+    return render(request, 'tweet/follows_tweet.html', {'all_follow_tweet': all_follow_tweet})
+
+
+def user_image_upload(request, user_id):
+    if request.method == 'GET':
+        form = FileForm()
+        return render(request, 'user/user_image_upload.html', {'form': form})
+    elif request.method == "POST":
+        form = FileForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = UserModel.objects.get(id=request.user.id)
+            user.imgfile = form.cleaned_data.get('imgfile')
+            user.save()
+            return redirect('/')
+        else:
+            form = FileForm()
+            return render(request, 'user/user_image_upload.html', {'form': form})

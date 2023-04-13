@@ -14,3 +14,10 @@ class EditProfileForm(UserChangeForm):
     class Meta:
         model = UserModel
         fields = ('bio',)
+
+        
+class FileForm(forms.ModelForm):
+    
+    class Meta:
+        model = UserModel
+        fields = ['imgfile']

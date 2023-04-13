@@ -17,6 +17,35 @@
             crossorigin="anonymous"
     ></script>
     <script>
+        function toggleBtn1() {
+
+	  
+
+            // 토글 할 버튼 선택 (btn1)
+      
+            const btn1 = document.getElementById('btn1');
+      
+            
+      
+            // btn1 숨기기 (display: none)
+      
+            if(btn1.style.display !== 'none') {
+      
+              btn1.style.display = 'none';
+      
+            }
+      
+            // btn` 보이기 (display: block)
+      
+            else {
+      
+              btn1.style.display = 'block';
+      
+            }
+      
+            
+      
+          }
         function sendRequest(tweet_id, event) {
             var httpRequest = new XMLHttpRequest();
             httpRequest.onreadystatechange = function () {
@@ -78,6 +107,9 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item disabled">
                         <span class="nav-link"> {{ user.username }} 님 반갑습니다! </span>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'my_page' user.id %}"> 마이페이지 </a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'user:logout' %}"> 로그아웃 </a>
