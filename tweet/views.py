@@ -58,9 +58,6 @@ def update_tweet(request, update_id):
                 update_post_content = update_content.save(commit=False)
                 update_post_content.image = update_content.cleaned_data.get(
                     'image')
-                print("여기!!",update_content.cleaned_data.get(
-                    'image'), type(update_content.cleaned_data.get(
-                    'image')))
                 if not update_content.cleaned_data.get(
                     'image'): 
                     update_post_content.image = None
