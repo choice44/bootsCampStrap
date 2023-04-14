@@ -1,9 +1,11 @@
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.conf import settings
 from django.urls import reverse
 from .models import UserModel, TweetModel, CommentModel
 from .forms import TweetForm, CommentForm
+import os
 
 
 def home(request):
@@ -54,12 +56,14 @@ def update_tweet(request, update_id):
         elif request.method == 'POST':
             update_content = TweetForm(
                 request.POST, request.FILES, instance=update)
+
             if update_content.is_valid():
                 update_post_content = update_content.save(commit=False)
                 update_post_content.image = update_content.cleaned_data.get(
                     'image')
-                if not update_content.cleaned_data.get(
-                    'image'): 
+                if not update_content.cleaned_data.get('image'):
+                    os.remove(os.path.join(
+                        settings.MEDIA_ROOT, tweet.image.path))
                     update_post_content.image = None
                 update_post_content.save()
                 return redirect('/tweet/')
