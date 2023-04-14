@@ -59,14 +59,26 @@ def update_tweet(request, update_id):
 
             if update_content.is_valid():
                 update_post_content = update_content.save(commit=False)
-                update_post_content.image = update_content.cleaned_data.get(
-                    'image')
+
+                # 체크박스 클릭시 image를 비우고 media 폴더의 이미지도 삭제
                 if not update_content.cleaned_data.get('image'):
                     os.remove(os.path.join(
                         settings.MEDIA_ROOT, tweet.image.path))
                     update_post_content.image = None
+
+                elif tweet.image != update_content.cleaned_data.get(
+                        'image'):
+                    os.remove(os.path.join(
+                        settings.MEDIA_ROOT, tweet.image.path))
+                    update_post_content.image = update_content.cleaned_data.get(
+                        'image')
+
+                else:
+                    update_post_content.image = update_content.cleaned_data.get(
+                        'image')
+
                 update_post_content.save()
-                return redirect('/tweet/')
+                return redirect('/tweet/detail/'+str(update_id))
             else:
                 update_form = TweetForm(instance=update)
                 return render(request, 'tweet/edit_tweet.html', {'update_form': update_form, 'update_id': update_id})
