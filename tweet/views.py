@@ -7,7 +7,7 @@ from .forms import TweetForm, CommentForm
 
 
 def home(request):
-    return redirect('tweet/')
+    return redirect('/tweet/')
 
 
 def show_tweet(request):
@@ -58,8 +58,14 @@ def update_tweet(request, update_id):
                 update_post_content = update_content.save(commit=False)
                 update_post_content.image = update_content.cleaned_data.get(
                     'image')
+                print("여기!!",update_content.cleaned_data.get(
+                    'image'), type(update_content.cleaned_data.get(
+                    'image')))
+                if not update_content.cleaned_data.get(
+                    'image'): 
+                    update_post_content.image = None
                 update_post_content.save()
-                return redirect('/tweet')
+                return redirect('/tweet/')
             else:
                 update_form = TweetForm(instance=update)
                 return render(request, 'tweet/edit_tweet.html', {'update_form': update_form, 'update_id': update_id})
@@ -73,7 +79,7 @@ def delete_tweet(request, delete_id):
     tweet = TweetModel.objects.get(id=delete_id)
     if user == tweet.user:
         tweet.delete()
-        return redirect('/tweet')
+        return redirect('/tweet/')
     else:
         return redirect('/')
 
@@ -122,7 +128,7 @@ def delete_comment(request, comment_id):
         comment.delete()
         return redirect('/tweet/detail/' + str(current_tweet))
     else:
-        return redirect('/tweet')
+        return redirect('/tweet/')
 
 
 # updatecomment - 댓글 수정하기
