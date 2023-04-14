@@ -25,7 +25,7 @@
                 {{ update_form.as_p }}
                 <div style="float: right">
                     <button type="submit" class="btn btn-primary" style='width:100px;'>저장하기</button>
-                    <a href="{%url 'show_tweet'%}" class="btn btn-secondary">뒤로가기</a>
+                    <a href="{%url 'detail' update_id %}" class="btn btn-secondary">뒤로가기</a>
                 </div>
             </form>
         </div>
