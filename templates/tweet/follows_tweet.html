@@ -27,24 +27,29 @@
             {% for tw in all_follow_tweet %}
             <div class="card mb-3">
                 <p class="card-header">
-                    <a href ='{% url 'my_page' tw.user.id %}' style="text-decoration-line: none;">
-                        <img
-                            src="{{ tw.user.imgfile.url }}"
-                            class="rounded-circle"
-                            width="50"
-                            height="50"
-                        >
-                        {{ tw.user.username }}
+                    <a href ="{% url 'my_page' tw.user.id %}" style="text-decoration-line: none;">
+                    <img
+                        src="{{ tw.user.imgfile.url }}"
+                        class="rounded-circle"
+                        width="50"
+                        height="50"
+                    >
+                        {{ tw.user }}
                     </a>
                 </p>
+            {% if tw.image %}
                 <a href='{% url 'detail' tw.id %}'>
                     <img
-                        src="{{ tw.image.url }}"
-                        class="card-img-top"
-                        alt="..."
-                        style="padding:10px"
-                    >
+                            src="{{ tw.image.url }}"
+                            class="card-img-top"
+                            alt="..." style='padding:10px'>
                 </a>
+            {% else %}
+            <a href ='{% url 'detail' tw.id %}'>
+                <div style='height: 250px; background-color: #d3d3d3; margin:10px'>
+                </div>
+            </a>
+            {% endif %}
                 <p class="post-meta" onclick="sendRequest({{ tw.id }}, this)">
                     {% if user in tw.like.all %}
                         ♥ {{ tw.like.count }}

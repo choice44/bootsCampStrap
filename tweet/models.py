@@ -41,6 +41,6 @@ class CommentModel(models.Model):
         TweetModel, on_delete=models.CASCADE, verbose_name="트윗", related_name='tweet+')
     author = models.ForeignKey(
         UserModel, on_delete=models.CASCADE, verbose_name="댓글작성자")
-    comment = models.CharField(max_length=256)
+    comment = models.CharField(max_length=256, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
