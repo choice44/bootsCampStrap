@@ -67,7 +67,7 @@ def update_tweet(request, update_id):
                     update_post_content.image = None
 
                 elif tweet.image != update_content.cleaned_data.get(
-                        'image') and tweet.image == None:
+                        'image') and tweet.image != '':
                     os.remove(os.path.join(
                         settings.MEDIA_ROOT, tweet.image.path))
                     update_post_content.image = update_content.cleaned_data.get(
